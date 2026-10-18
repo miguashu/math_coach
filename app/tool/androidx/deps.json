@@ -1,0 +1,406 @@
+{
+  "jars": [
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\activity-1.8.1-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\annotation-jvm-1.8.1.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\annotation-experimental-1.4.0-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\annotation-jvm-1.8.1.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\core-common-2.2.0.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\core-runtime-2.2.0-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\collection-1.1.0.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\concurrent-futures-1.1.0.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\core-1.13.1-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\core-ktx-1.2.0-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\customview-1.0.0-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\exifinterface-1.4.1-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\fragment-1.7.1-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\interpolator-1.0.0-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\lifecycle-common-jvm-2.8.7.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\lifecycle-common-jvm-2.8.7.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\lifecycle-livedata-2.0.0-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\lifecycle-livedata-core-2.6.1-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\lifecycle-runtime-android-2.8.7-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\lifecycle-runtime-android-2.8.7-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\lifecycle-viewmodel-2.6.1-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\lifecycle-viewmodel-savedstate-2.6.1-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\loader-1.0.0-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\profileinstaller-1.3.1-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\savedstate-1.2.1-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\startup-runtime-1.1.1-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\tracing-1.2.0-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\versionedparcelable-1.1.1-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\viewpager-1.0.0-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\core-1.0.0-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\window-1.3.0-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\relinker-1.4.5-classes.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\listenablefuture-1.0.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\kotlin-stdlib-2.0.21.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\kotlin-stdlib-jdk7-1.8.20.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\kotlin-stdlib-jdk8-1.8.20.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\kotlinx-coroutines-android-1.7.3.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\kotlinx-coroutines-core-jvm-1.7.3.jar",
+    "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\kotlinx-coroutines-core-jvm-1.7.3.jar"
+  ],
+  "tree": {
+    "androidx.core:core": {
+      "version": "1.13.1",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\core-1.13.1.aar",
+      "deps": [
+        "androidx.annotation:annotation",
+        "androidx.annotation:annotation-experimental",
+        "androidx.collection:collection",
+        "androidx.concurrent:concurrent-futures",
+        "androidx.interpolator:interpolator",
+        "androidx.lifecycle:lifecycle-runtime",
+        "androidx.versionedparcelable:versionedparcelable",
+        "org.jetbrains.kotlin:kotlin-stdlib"
+      ]
+    },
+    "androidx.annotation:annotation": {
+      "version": "1.8.1",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\annotation-jvm-1.8.1.jar",
+      "deps": [
+        "androidx.annotation:annotation-jvm",
+        "org.jetbrains.kotlin:kotlin-stdlib"
+      ]
+    },
+    "org.jetbrains.kotlin:kotlin-stdlib": {
+      "version": "2.0.21",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\kotlin-stdlib-2.0.21.jar",
+      "deps": [
+        "org.jetbrains:annotations"
+      ]
+    },
+    "org.jetbrains.kotlin:kotlin-stdlib-common": {
+      "version": "1.8.22",
+      "file": null,
+      "deps": []
+    },
+    "androidx.annotation:annotation-experimental": {
+      "version": "1.4.0",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\annotation-experimental-1.4.0.aar",
+      "deps": [
+        "org.jetbrains.kotlin:kotlin-stdlib"
+      ]
+    },
+    "androidx.collection:collection": {
+      "version": "1.1.0",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\collection-1.1.0.jar",
+      "deps": [
+        "androidx.annotation:annotation"
+      ]
+    },
+    "androidx.concurrent:concurrent-futures": {
+      "version": "1.1.0",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\concurrent-futures-1.1.0.jar",
+      "deps": [
+        "androidx.annotation:annotation",
+        "com.google.guava:listenablefuture"
+      ]
+    },
+    "com.google.guava:listenablefuture": {
+      "version": "1.0",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\listenablefuture-1.0.jar",
+      "deps": []
+    },
+    "androidx.interpolator:interpolator": {
+      "version": "1.0.0",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\interpolator-1.0.0.aar",
+      "deps": [
+        "androidx.annotation:annotation"
+      ]
+    },
+    "androidx.lifecycle:lifecycle-runtime": {
+      "version": "2.8.7",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\lifecycle-runtime-android-2.8.7.aar",
+      "deps": [
+        "androidx.annotation:annotation",
+        "androidx.arch.core:core-common",
+        "androidx.lifecycle:lifecycle-common",
+        "androidx.lifecycle:lifecycle-runtime-android",
+        "org.jetbrains.kotlin:kotlin-stdlib"
+      ]
+    },
+    "androidx.arch.core:core-common": {
+      "version": "2.2.0",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\core-common-2.2.0.jar",
+      "deps": [
+        "androidx.annotation:annotation"
+      ]
+    },
+    "androidx.arch.core:core-runtime": {
+      "version": "2.2.0",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\core-runtime-2.2.0.aar",
+      "deps": [
+        "androidx.annotation:annotation",
+        "androidx.arch.core:core-common"
+      ]
+    },
+    "androidx.lifecycle:lifecycle-common": {
+      "version": "2.8.7",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\lifecycle-common-jvm-2.8.7.jar",
+      "deps": [
+        "androidx.annotation:annotation",
+        "androidx.lifecycle:lifecycle-common-jvm",
+        "org.jetbrains.kotlin:kotlin-stdlib",
+        "org.jetbrains.kotlinx:atomicfu",
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core"
+      ]
+    },
+    "org.jetbrains.kotlinx:kotlinx-coroutines-android": {
+      "version": "1.7.3",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\kotlinx-coroutines-android-1.7.3.jar",
+      "deps": [
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm",
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+      ]
+    },
+    "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm": {
+      "version": "1.7.3",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\kotlinx-coroutines-core-jvm-1.7.3.jar",
+      "deps": [
+        "org.jetbrains:annotations",
+        "org.jetbrains.kotlin:kotlin-stdlib-common",
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+      ]
+    },
+    "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
+      "version": "1.8.20",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\kotlin-stdlib-jdk8-1.8.20.jar",
+      "deps": [
+        "org.jetbrains.kotlin:kotlin-stdlib",
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk7"
+      ]
+    },
+    "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
+      "version": "1.8.20",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\kotlin-stdlib-jdk7-1.8.20.jar",
+      "deps": [
+        "org.jetbrains.kotlin:kotlin-stdlib"
+      ]
+    },
+    "androidx.profileinstaller:profileinstaller": {
+      "version": "1.3.1",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\profileinstaller-1.3.1.aar",
+      "deps": [
+        "androidx.annotation:annotation",
+        "androidx.concurrent:concurrent-futures",
+        "androidx.startup:startup-runtime",
+        "com.google.guava:listenablefuture"
+      ]
+    },
+    "androidx.startup:startup-runtime": {
+      "version": "1.1.1",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\startup-runtime-1.1.1.aar",
+      "deps": [
+        "androidx.annotation:annotation",
+        "androidx.tracing:tracing"
+      ]
+    },
+    "androidx.tracing:tracing": {
+      "version": "1.2.0",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\tracing-1.2.0.aar",
+      "deps": [
+        "androidx.annotation:annotation"
+      ]
+    },
+    "androidx.versionedparcelable:versionedparcelable": {
+      "version": "1.1.1",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\versionedparcelable-1.1.1.aar",
+      "deps": [
+        "androidx.annotation:annotation",
+        "androidx.collection:collection"
+      ]
+    },
+    "androidx.activity:activity": {
+      "version": "1.8.1",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\activity-1.8.1.aar",
+      "deps": [
+        "androidx.annotation:annotation",
+        "androidx.collection:collection",
+        "androidx.core:core",
+        "androidx.lifecycle:lifecycle-runtime",
+        "androidx.lifecycle:lifecycle-viewmodel",
+        "androidx.lifecycle:lifecycle-viewmodel-savedstate",
+        "androidx.profileinstaller:profileinstaller",
+        "androidx.savedstate:savedstate",
+        "androidx.tracing:tracing",
+        "org.jetbrains.kotlin:kotlin-stdlib"
+      ]
+    },
+    "androidx.lifecycle:lifecycle-viewmodel": {
+      "version": "2.6.1",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\lifecycle-viewmodel-2.6.1.aar",
+      "deps": [
+        "androidx.annotation:annotation",
+        "org.jetbrains.kotlin:kotlin-stdlib"
+      ]
+    },
+    "androidx.lifecycle:lifecycle-viewmodel-savedstate": {
+      "version": "2.6.1",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\lifecycle-viewmodel-savedstate-2.6.1.aar",
+      "deps": [
+        "androidx.annotation:annotation",
+        "androidx.core:core-ktx",
+        "androidx.lifecycle:lifecycle-livedata-core",
+        "androidx.lifecycle:lifecycle-viewmodel",
+        "androidx.savedstate:savedstate",
+        "org.jetbrains.kotlin:kotlin-stdlib",
+        "org.jetbrains.kotlinx:kotlinx-coroutines-android"
+      ]
+    },
+    "androidx.core:core-ktx": {
+      "version": "1.2.0",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\core-ktx-1.2.0.aar",
+      "deps": [
+        "org.jetbrains.kotlin:kotlin-stdlib",
+        "androidx.annotation:annotation",
+        "androidx.core:core"
+      ]
+    },
+    "androidx.lifecycle:lifecycle-livedata-core": {
+      "version": "2.6.1",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\lifecycle-livedata-core-2.6.1.aar",
+      "deps": [
+        "androidx.arch.core:core-common",
+        "androidx.arch.core:core-runtime",
+        "androidx.lifecycle:lifecycle-common",
+        "org.jetbrains.kotlin:kotlin-stdlib"
+      ]
+    },
+    "androidx.savedstate:savedstate": {
+      "version": "1.2.1",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\savedstate-1.2.1.aar",
+      "deps": [
+        "androidx.annotation:annotation",
+        "androidx.arch.core:core-common",
+        "androidx.lifecycle:lifecycle-common",
+        "org.jetbrains.kotlin:kotlin-stdlib"
+      ]
+    },
+    "androidx.fragment:fragment": {
+      "version": "1.7.1",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\fragment-1.7.1.aar",
+      "deps": [
+        "androidx.activity:activity",
+        "androidx.annotation:annotation",
+        "androidx.annotation:annotation-experimental",
+        "androidx.collection:collection",
+        "androidx.core:core-ktx",
+        "androidx.lifecycle:lifecycle-livedata-core",
+        "androidx.lifecycle:lifecycle-runtime",
+        "androidx.lifecycle:lifecycle-viewmodel",
+        "androidx.lifecycle:lifecycle-viewmodel-savedstate",
+        "androidx.loader:loader",
+        "androidx.profileinstaller:profileinstaller",
+        "androidx.savedstate:savedstate",
+        "androidx.viewpager:viewpager",
+        "org.jetbrains.kotlin:kotlin-stdlib"
+      ]
+    },
+    "androidx.loader:loader": {
+      "version": "1.0.0",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\loader-1.0.0.aar",
+      "deps": [
+        "androidx.annotation:annotation",
+        "androidx.core:core",
+        "androidx.lifecycle:lifecycle-livedata",
+        "androidx.lifecycle:lifecycle-viewmodel"
+      ]
+    },
+    "androidx.lifecycle:lifecycle-livedata": {
+      "version": "2.0.0",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\lifecycle-livedata-2.0.0.aar",
+      "deps": [
+        "androidx.arch.core:core-runtime",
+        "androidx.lifecycle:lifecycle-livedata-core",
+        "androidx.arch.core:core-common"
+      ]
+    },
+    "androidx.viewpager:viewpager": {
+      "version": "1.0.0",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\viewpager-1.0.0.aar",
+      "deps": [
+        "androidx.annotation:annotation",
+        "androidx.core:core",
+        "androidx.customview:customview"
+      ]
+    },
+    "androidx.customview:customview": {
+      "version": "1.0.0",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\customview-1.0.0.aar",
+      "deps": [
+        "androidx.annotation:annotation",
+        "androidx.core:core"
+      ]
+    },
+    "androidx.annotation:annotation-jvm": {
+      "version": "1.8.1",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\annotation-jvm-1.8.1.jar",
+      "deps": [
+        "org.jetbrains.kotlin:kotlin-stdlib"
+      ]
+    },
+    "androidx.lifecycle:lifecycle-common-jvm": {
+      "version": "2.8.7",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\lifecycle-common-jvm-2.8.7.jar",
+      "deps": [
+        "androidx.annotation:annotation-jvm",
+        "org.jetbrains.kotlin:kotlin-stdlib",
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core"
+      ]
+    },
+    "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+      "version": "1.7.3",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\kotlinx-coroutines-core-jvm-1.7.3.jar",
+      "deps": [
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm"
+      ]
+    },
+    "androidx.lifecycle:lifecycle-runtime-android": {
+      "version": "2.8.7",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\lifecycle-runtime-android-2.8.7.aar",
+      "deps": [
+        "androidx.annotation:annotation",
+        "androidx.arch.core:core-common",
+        "androidx.arch.core:core-runtime",
+        "androidx.lifecycle:lifecycle-common",
+        "androidx.profileinstaller:profileinstaller",
+        "org.jetbrains.kotlin:kotlin-stdlib",
+        "org.jetbrains.kotlinx:kotlinx-coroutines-android"
+      ]
+    },
+    "androidx.window:window": {
+      "version": "1.3.0",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\window-1.3.0.aar",
+      "deps": [
+        "androidx.annotation:annotation",
+        "androidx.collection:collection",
+        "androidx.core:core",
+        "androidx.window.extensions.core:core",
+        "org.jetbrains.kotlin:kotlin-stdlib",
+        "org.jetbrains.kotlinx:kotlinx-coroutines-android"
+      ]
+    },
+    "androidx.window.extensions.core:core": {
+      "version": "1.0.0",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\core-1.0.0.aar",
+      "deps": [
+        "androidx.annotation:annotation",
+        "org.jetbrains.kotlin:kotlin-stdlib"
+      ]
+    },
+    "androidx.exifinterface:exifinterface": {
+      "version": "1.4.1",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\exifinterface-1.4.1.aar",
+      "deps": [
+        "androidx.annotation:annotation",
+        "org.jspecify:jspecify"
+      ]
+    },
+    "com.getkeepsafe.relinker:relinker": {
+      "version": "1.4.5",
+      "file": "C:\\Users\\Lenovo\\WorkBuddy\\2026-10-10-23-07-53\\math_coach\\app\\tool\\androidx\\relinker-1.4.5.aar",
+      "deps": []
+    }
+  }
+}

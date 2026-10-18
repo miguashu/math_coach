@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>小数辅导 · 小学数学辅导</title>
+
+<!-- ── PWA / 添加到主屏幕（iPhone 与安卓通用）── -->
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#2563eb">
+<link rel="icon" href="/icons/favicon.png" sizes="64x64">
+<link rel="icon" href="/icons/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" sizes="180x180">
+<!-- iOS 专属：这两个 meta 决定「添加到主屏幕」后是不是全屏无浏览器栏 -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="小数辅导">
+<meta name="format-detection" content="telephone=no">
+
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">∑</span>
+      <div>
+        <div class="title">小学数学辅导</div>
+        <div class="subtitle" id="subtitle">答案本地算 · 数据不出本机</div>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs">
+      <button class="tab active" data-view="practice">练习</button>
+      <button class="tab" data-view="book">错题本<span class="badge" id="bookBadge">0</span></button>
+      <button class="tab" data-view="review">复习<span class="badge warn" id="dueBadge">0</span></button>
+      <button class="tab" data-view="look">观感验收</button>
+    </nav>
+  </header>
+
+  <!-- ══════════ 练习 ══════════ -->
+  <section class="view active" id="view-practice">
+    <div class="panel setup">
+      <div class="row">
+        <label>年级</label>
+        <select id="gradeSel"></select>
+        <label>知识点</label>
+        <select id="topicSel">
+          <option value="">（不限，随机练）</option>
+        </select>
+        <label>题数</label>
+        <input id="countInput" type="number" min="1" max="20" value="5">
+        <label>难度</label>
+        <select id="levelSel">
+          <option value="1">基础（本地题库）</option>
+          <option value="2">提高（一半 AI 新题）</option>
+          <option value="3">奥数挑战（AI 为主）</option>
+        </select>
+        <button class="primary" id="newPaperBtn">出一套题</button>
+      </div>
+      <p class="hint" id="topicHint">模型不负责任何数字：题目本地随机生成，答案本地算，错了有分步讲解。</p>
+      <p class="hint hidden" id="aiNote"></p>
+    </div>
+
+    <div id="paperArea" class="paper hidden"></div>
+
+    <div id="resultArea" class="panel result hidden"></div>
+  </section>
+
+  <!-- ══════════ 错题本 ══════════ -->
+  <section class="view" id="view-book">
+    <div class="panel">
+      <div class="row between">
+        <div class="stats" id="bookStats"></div>
+        <div class="row">
+          <button id="exportQuizBtn" class="primary">导出练习卷 PDF</button>
+          <button id="exportAnsBtn">导出答案 PDF</button>
+          <button id="clearBookBtn" class="danger">清空</button>
+        </div>
+      </div>
+      <p class="hint">排在前面的，是「错得多、最近又没答对」的题 —— 不是按错一次加一分那样单调累加。</p>
+    </div>
+    <div id="bookList" class="list"></div>
+  </section>
+
+  <!-- ══════════ 复习 ══════════ -->
+  <section class="view" id="view-review">
+    <div class="panel">
+      <div class="row between">
+        <div>
+          <div class="panel-title">今天该复习这些</div>
+          <div class="panel-sub" id="reviewSub">间隔按 FSRS 排：答对了会往后推，答错马上回到队首。</div>
+        </div>
+        <button id="exportDueBtn" class="primary">导出这张卷子</button>
+      </div>
+    </div>
+    <div id="dueList" class="list"></div>
+  </section>
+
+  <!-- ══════════ 观感验收 ══════════ -->
+  <section class="view" id="view-look">
+    <div class="panel">
+      <div class="panel-title">在手机上逐项看</div>
+      <p class="hint">
+        图形、竖式、PDF 全部由 <b>同一份 Dart 内核</b>生成，和你手机上看到的是一套东西。
+        iPhone 用 Safari 打开这个地址就行 —— 不需要装任何东西。
+      </p>
+
+      <div class="install-box">
+        <div class="install-title">把「小数辅导」装到手机主屏幕（像 App 一样用）</div>
+        <ol class="install-steps">
+          <li><b>iPhone</b>：用 <b>Safari</b> 打开本页 → 点底部中间的「分享」按钮（方框+向上箭头）→ 往下划找到「<b>添加到主屏幕</b>」→ 点「添加」。</li>
+          <li><b>安卓</b>：用 Chrome 打开本页 → 右上角「⋮」→「<b>添加到主屏幕</b>」。</li>
+          <li>回到桌面就能看到蓝色 ∑ 图标，点开是<b>全屏无浏览器栏</b>的界面。</li>
+        </ol>
+        <p class="hint" style="margin:8px 0 0">
+          已装好的话，桌面图标会一直指向这台电脑；<b>电脑上的服务开着</b>就能用（数据也在电脑上，不上传）。
+        </p>
+      </div>
+
+      <div class="row" style="margin-top:10px">
+        <button id="samplePdfBtn" class="primary">导出样例练习卷 PDF</button>
+        <button id="reloadSamplesBtn">换一组样例</button>
+      </div>
+      <p class="hint" id="lookHint">
+        重点看：① 几何图形里的数字和题面是否一致 ② 竖式数位是否上下对齐
+        ③ 按钮和输入框手指点着是否顺手 ④ PDF 打印出来是否清楚。
+      </p>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">几何图形（坐标由本地求解器算）</div>
+      <div id="geoArea" class="list">加载中…</div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">竖式（数位对齐是这个工具的差异点）</div>
+      <div id="vertArea" class="list">加载中…</div>
+    </div>
+  </section>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="/app.js"></script>
+<script>
+// 离线外壳：只在安全上下文（HTTPS / localhost）才注册得上。
+// 局域网上 http://192.168.x.x 打开时浏览器会拒绝注册，
+// 这时「添加到主屏幕」依然可用，只是没有离线缓存 —— 静默跳过即可。
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('/sw.js').catch(function () {});
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+name: math_coach_app
+description: 小学数学辅导 App（家长端）——错题本 · 变体闯关 · 复习调度 · 导出打印卷
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # 内核：语义几何 DSL + 本地求解器 + 竖式排版 + 变体闸门 + FSRS。
+  # 刻意保持纯 Dart，App 层只负责 UI。
+  math_coach:
+    path: ../
+
+flutter:
+  assets:
+    - assets/fonts/

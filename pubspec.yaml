@@ -1,0 +1,17 @@
+name: math_coach
+description: >-
+  小学数学辅导工具内核：语义几何 DSL + 本地求解器 + 竖式排版 + 变体正确性闸门 +
+  知识点归类 + FSRS 复习调度。刻意做成纯 Dart（不依赖 Flutter），
+  这样屏幕渲染器（CustomPainter）、PDF 渲染器（PdfGraphics）与单元测试可以复用同一份内核。
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.5.0
+
+dependencies:
+  pdf: ^3.11.0
+
+dev_dependencies:
+  test: ^1.25.0
+  lints: ^5.0.0

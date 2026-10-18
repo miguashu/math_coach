@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  唯一的权限是 INTERNET，且**只在用户自己填了 API key 之后才会被用到**：
+  拍照识题与讲解由用户自己绑定的模型账号调用，没有 key 时整个 App
+  依旧完全离线可用（出题、判分、复习、导出 PDF 全部本地算）。
+
+  不需要 CAMERA 权限 —— 拍照走系统相机 App（ACTION_IMAGE_CAPTURE），
+  拍完把文件还给我们，本 App 不直接操作摄像头。
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mathcoach.app">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-sdk
+        android:minSdkVersion="24"
+        android:targetSdkVersion="34" />
+
+    <application
+        android:name=".MainApplication"
+        android:label="小数辅导"
+        android:usesCleartextTraffic="false"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/LaunchTheme"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize">
+
+            <meta-data
+                android:name="io.flutter.embedding.android.NormalTheme"
+                android:resource="@style/NormalTheme" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+          分享导出的 PDF 必须经 FileProvider：Android 7.0 起向外传递 file://
+          Uri 会直接抛 FileUriExposedException，而这个异常发生在系统侧，
+          从 App 的日志里看不出根因。authorities 用写死的包名 ——
+          手工构建链路没有 Gradle 的 ${applicationId} 占位符替换。
+        -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.mathcoach.app.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <!-- Flutter embedding v2 -->
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+    </application>
+
+    <!--
+      Android 11 起的包可见性限制：不声明就查不到能收 ACTION_SEND 的
+      应用，分享面板会是一片空白。这里只声明这一个 intent，不是权限。
+    -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+            <data android:mimeType="application/pdf" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+            <data android:mimeType="*/*" />
+        </intent>
+    </queries>
+</manifest>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  FileProvider 的可见目录白名单。
+
+  导出 PDF 走的是 App 专属目录（getExternalFilesDir），从 Android 7.0 起
+  不能再把 file:// 的 Uri 直接丢给别的应用 —— 会抛 FileUriExposedException。
+  所以必须经 FileProvider 换成 content:// 并临时授予读权限。
+
+  这里只放行 App 自己的目录，不给整个外置存储开口子。
+-->
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <external-files-path name="app_files" path="." />
+    <files-path name="internal_files" path="." />
+    <cache-path name="cache" path="." />
+</paths>

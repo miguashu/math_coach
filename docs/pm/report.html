@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>小数辅导 · 项目汇报</title>
+<style>
+  :root{
+    --blue:#185FA5; --blue-bg:#E6F1FB;
+    --teal:#0F6E56; --teal-bg:#E1F5EE;
+    --purple:#534AB7; --purple-bg:#EEEDFE;
+    --amber:#854F0B; --amber-bg:#FAEEDA;
+    --red:#A32D2D; --red-bg:#FCEBEB;
+    --ink:#2C2C2A; --muted:#5F5E5A; --line:rgba(0,0,0,.12);
+    --surf:#F7F6F3;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#fff;color:var(--ink);
+    font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",system-ui,sans-serif;
+    font-size:14px;line-height:1.7;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:980px;margin:0 auto;padding:0 28px 64px}
+  header{padding:44px 0 28px;border-bottom:1px solid var(--line)}
+  h1{font-size:30px;font-weight:600;margin:0 0 10px;letter-spacing:-.4px}
+  .sub{color:var(--muted);font-size:15px;margin:0}
+  .tags{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+  .tag{font-size:12px;padding:4px 10px;border-radius:999px;background:var(--surf);
+    border:1px solid var(--line);color:var(--muted)}
+  .tag.ok{background:var(--teal-bg);border-color:rgba(15,110,86,.3);color:var(--teal)}
+  h2{font-size:19px;font-weight:600;margin:52px 0 6px;letter-spacing:-.2px}
+  h2 .n{color:var(--muted);font-weight:400;margin-right:8px}
+  h3{font-size:15px;font-weight:600;margin:26px 0 8px}
+  .lead{color:var(--muted);margin:0 0 20px;font-size:14px}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:22px}
+  .kpi{background:var(--surf);border-radius:12px;padding:16px 18px}
+  .kpi .l{font-size:12px;color:var(--muted)}
+  .kpi .v{font-size:26px;font-weight:600;line-height:1.25;margin-top:4px}
+  .kpi .v small{font-size:14px;font-weight:400;color:var(--muted)}
+  .kpi .d{font-size:12px;color:var(--muted);margin-top:2px}
+  figure{margin:0;background:var(--surf);border-radius:14px;padding:18px 8px 8px}
+  figure svg{display:block;width:100%;height:auto}
+  figcaption{font-size:12px;color:var(--muted);padding:6px 14px 8px;text-align:center}
+  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13.5px}
+  th,td{text-align:left;padding:10px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-weight:500;color:var(--muted);font-size:12.5px;border-bottom:1px solid rgba(0,0,0,.2)}
+  td code{background:var(--surf);padding:1px 5px;border-radius:4px;font-size:12.5px}
+  .pill{display:inline-block;font-size:12px;padding:2px 8px;border-radius:999px;white-space:nowrap}
+  .p-ok{background:var(--teal-bg);color:var(--teal)}
+  .p-warn{background:var(--amber-bg);color:var(--amber)}
+  .p-no{background:var(--red-bg);color:var(--red)}
+  .p-idle{background:var(--surf);color:var(--muted)}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+  .card{border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .card h3{margin:0 0 6px;font-size:15px;font-weight:600}
+  .card p{margin:0;font-size:13px;color:var(--muted)}
+  .bar{height:8px;border-radius:999px;background:var(--surf);overflow:hidden;margin-top:14px}
+  .bar i{display:block;height:100%;background:var(--teal);border-radius:999px}
+  .tl{margin-top:10px;border-left:2px solid var(--line);padding-left:18px}
+  .tl li{list-style:none;position:relative;padding:0 0 18px 0;margin:0}
+  .tl li:before{content:"";position:absolute;left:-25px;top:7px;width:10px;height:10px;
+    border-radius:50%;background:var(--teal);border:2px solid #fff}
+  .tl li.idle:before{background:var(--surf);border-color:var(--muted)}
+  .tl b{font-weight:600}
+  .tl span{color:var(--muted);font-size:13px}
+  .note{background:var(--blue-bg);border-radius:12px;padding:14px 18px;font-size:13.5px;margin-top:16px}
+  .note b{color:var(--blue)}
+  .note.bad{background:var(--amber-bg)}
+  .note.bad b{color:var(--amber)}
+  footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);
+    font-size:12.5px;color:var(--muted)}
+  footer code{background:var(--surf);padding:1px 5px;border-radius:4px}
+  @media print{body{font-size:12px}.wrap{padding:0 8px}h2{page-break-after:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>小数辅导 · 项目汇报</h1>
+  <p class="sub">小学 1–6 年级数学练习工具 · 离线内核 + 联网 AI 增强 · <b>v1.4 · 2026-10-18</b></p>
+  <div class="tags">
+    <span class="tag ok">12 / 12 里程碑交付</span>
+    <span class="tag ok">安装包 26 MB（原 172 MB）</span>
+    <span class="tag ok">离线回归 351 条全过</span>
+    <span class="tag">零权限 · 不联网也能用</span>
+    <span class="tag">工作位置 D:\workbuddy\math_coach</span>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="l">安装包体积</div><div class="v">26.5<small> MB</small></div><div class="d">strip 前是 172 MB · arm64</div></div>
+    <div class="kpi"><div class="l">申请权限</div><div class="v">0<small> 条</small></div><div class="d">不是少用，是一条都没有</div></div>
+    <div class="kpi"><div class="l">冷启动</div><div class="v">1.4<small> s</small></div><div class="d">26 MB 瘦身包实测</div></div>
+    <div class="kpi"><div class="l">离线回归</div><div class="v">433<small> 条</small></div><div class="d">10 个脚本全过（含几何求解器 30 条；衍生题同算法 94 条）</div></div>
+    <div class="kpi"><div class="l">联网实测</div><div class="v">15<small> / 15</small></div><div class="d">真实 key 端到端</div></div>
+    <div class="kpi"><div class="l">备份回归</div><div class="v">15<small> / 15</small></div><div class="d">合并规则逐条断言</div></div>
+    <div class="kpi"><div class="l">dex 缺失类</div><div class="v">0</div><div class="d">引用但未定义，会崩的那种</div></div>
+    <div class="kpi"><div class="l">里程碑</div><div class="v">13<small> / 13</small></div><div class="d">含 iPhone 可用 · AI 判卷 · 衍生题库 · 浮窗演算板</div></div>
+  </div>
+</header>
+
+<h2><span class="n">01</span>一页看懂</h2>
+<p class="lead">三句话讲完这个东西是什么。</p>
+<div class="cards">
+  <div class="card">
+    <h3>题是本地出的，答案也是本地算的</h3>
+    <p>23 个题型工厂，每题过正确性闸门；数值全走 <code>Rational</code> 精确有理数，不用浮点。
+       联网只是增强项 —— 断网、key 失效，练习/复习/导出照常。</p>
+  </div>
+  <div class="card">
+    <h3>模型只讲不算，答案一律本地复算</h3>
+    <p>四个 Agent 输出的验算式由本地重算，对不上就<b>带着原因打回重做一次</b>，
+       仍不符亮红牌。验算三态，没验算就不亮绿勾 —— 不冒充正确。</p>
+  </div>
+  <div class="card">
+    <h3>错题会自己找上门，也能打印出来</h3>
+    <p>FSRS 间隔复习，只出到期的题；重要度会衰减（连对 3 次归零），
+       不会变成耻辱墙。随时导出 A4 矢量 PDF，图形是真矢量不是截图放大。</p>
+  </div>
+</div>
+
+<h2><span class="n">02</span>主流程：离线闭环</h2>
+<p class="lead">下面这条链路完全不联网，是整个产品的地基。</p>
+<figure>
+<svg viewBox="0 0 680 250" width="100%" role="img">
+<title>离线练习闭环</title>
+<desc>出题、判分、归档、复习、导出五个环节构成的闭环。</desc>
+<defs>
+<marker id="a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+<g><rect x="40" y="40" width="170" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width=".5"/>
+<text x="125" y="62" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle" dominant-baseline="central">出题</text>
+<text x="125" y="80" font-size="12" fill="#185FA5" text-anchor="middle" dominant-baseline="central">23 题型 · 过闸门</text></g>
+<g><rect x="255" y="40" width="170" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width=".5"/>
+<text x="340" y="62" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle" dominant-baseline="central">作答判分</text>
+<text x="340" y="80" font-size="12" fill="#185FA5" text-anchor="middle" dominant-baseline="central">有理数精确比对</text></g>
+<g><rect x="470" y="40" width="170" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width=".5"/>
+<text x="555" y="62" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle" dominant-baseline="central">归档</text>
+<text x="555" y="80" font-size="12" fill="#185FA5" text-anchor="middle" dominant-baseline="central">FSRS · 重要度衰减</text></g>
+<g><rect x="470" y="160" width="170" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width=".5"/>
+<text x="555" y="182" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle" dominant-baseline="central">复习</text>
+<text x="555" y="200" font-size="12" fill="#185FA5" text-anchor="middle" dominant-baseline="central">只出到期的题</text></g>
+<g><rect x="255" y="160" width="170" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width=".5"/>
+<text x="340" y="182" font-size="14" font-weight="500" fill="#085041" text-anchor="middle" dominant-baseline="central">导出</text>
+<text x="340" y="200" font-size="12" fill="#0F6E56" text-anchor="middle" dominant-baseline="central">A4 矢量 PDF</text></g>
+<path d="M210 68 L249 68" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#a1)"/>
+<path d="M425 68 L464 68" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#a1)"/>
+<path d="M525 96 L525 154" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#a1)"/>
+<path d="M585 160 L585 102" fill="none" stroke="#185FA5" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#a1)"/>
+<path d="M470 188 L431 188" fill="none" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#a1)"/>
+<text x="533" y="128" font-size="12" fill="#185FA5" dominant-baseline="central">到期取出</text>
+<text x="596" y="128" font-size="12" fill="#185FA5" dominant-baseline="central">结果回写</text>
+<text x="340" y="234" font-size="12" fill="#5F5E5A" text-anchor="middle" dominant-baseline="central">以上五步全部在本地完成 · 不联网、零权限</text>
+</svg>
+<figcaption>归档与复习之间是双向的：到期取出题，答完回写调度状态。</figcaption>
+</figure>
+
+<h2><span class="n">03</span>增强链路：拍照到讲解</h2>
+<p class="lead">联网才有的两块能力。紫色是模型参与的部分，蓝色是本地把关的部分。</p>
+<figure>
+<svg viewBox="0 0 680 250" width="100%" role="img">
+<title>拍照识题到分步讲解的链路</title>
+<desc>拍照选图、视觉模型抄题、家长确认、讲解 Agent、本地闸门与验算三态。</desc>
+<defs>
+<marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+<g><rect x="40" y="40" width="170" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width=".5"/>
+<text x="125" y="62" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle" dominant-baseline="central">拍照 / 选图</text>
+<text x="125" y="80" font-size="12" fill="#185FA5" text-anchor="middle" dominant-baseline="central">不申请相机权限</text></g>
+<g><rect x="255" y="40" width="170" height="56" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width=".5"/>
+<text x="340" y="62" font-size="14" font-weight="500" fill="#3C3489" text-anchor="middle" dominant-baseline="central">视觉模型抄题</text>
+<text x="340" y="80" font-size="12" fill="#534AB7" text-anchor="middle" dominant-baseline="central">只许抄题不许解</text></g>
+<g><rect x="470" y="40" width="170" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width=".5"/>
+<text x="555" y="62" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle" dominant-baseline="central">家长确认题干</text>
+<text x="555" y="80" font-size="12" fill="#185FA5" text-anchor="middle" dominant-baseline="central">识别结果可改</text></g>
+<g><rect x="470" y="160" width="170" height="56" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width=".5"/>
+<text x="555" y="182" font-size="14" font-weight="500" fill="#3C3489" text-anchor="middle" dominant-baseline="central">讲解 Agent</text>
+<text x="555" y="200" font-size="12" fill="#534AB7" text-anchor="middle" dominant-baseline="central">步骤 + 答案 + 算式</text></g>
+<g><rect x="255" y="160" width="170" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width=".5"/>
+<text x="340" y="182" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle" dominant-baseline="central">本地闸门</text>
+<text x="340" y="200" font-size="12" fill="#185FA5" text-anchor="middle" dominant-baseline="central">≥2 步 + 算式复算</text></g>
+<g><rect x="40" y="160" width="170" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width=".5"/>
+<text x="125" y="182" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle" dominant-baseline="central">验算三态</text>
+<text x="125" y="200" font-size="12" fill="#185FA5" text-anchor="middle" dominant-baseline="central">已验算 / 未验 / 不符</text></g>
+<path d="M210 68 L249 68" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#a2)"/>
+<path d="M425 68 L464 68" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#a2)"/>
+<path d="M555 96 L555 154" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#a2)"/>
+<path d="M470 188 L431 188" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#a2)"/>
+<path d="M255 188 L216 188" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#a2)"/>
+<path d="M400 156 L400 128 L585 128 L585 154" fill="none" stroke="#534AB7" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#a2)"/>
+<text x="410" y="118" font-size="12" fill="#534AB7" dominant-baseline="central">不合格：带原因重发一次，仍不符就亮红牌</text>
+<text x="340" y="234" font-size="12" fill="#5F5E5A" text-anchor="middle" dominant-baseline="central">模型只出关系与讲解 · 答案一律本地 Rational 复算</text>
+</svg>
+<figcaption>识别结果必须家长确认后才进讲解 —— 不拿模型的输出直接当真理。</figcaption>
+</figure>
+
+<h2><span class="n">04</span>判卷到衍生题库：最近补上的这一环</h2>
+<p class="lead">家长原话："卷子打印出来了，根据拍照卷子判卷，判卷结束后把错题引入错题本，
+同时生成衍生题，衍生题进题库。" 这条链已在模拟器上从头点到尾。</p>
+<figure>
+<svg viewBox="0 0 680 250" width="100%" role="img">
+<title>拍照判卷到衍生题库的完整链路</title>
+<desc>判卷、本地判分、错题本、后台自动衍生、衍生题库、练习与过关，以及答错回流错题本。</desc>
+<defs>
+<marker id="a4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+<g><rect x="40" y="40" width="170" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width=".5"/>
+<text x="125" y="62" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle" dominant-baseline="central">拍照判卷</text>
+<text x="125" y="80" font-size="12" fill="#185FA5" text-anchor="middle" dominant-baseline="central">模型只认字 · 认不出不判错</text></g>
+<g><rect x="255" y="40" width="170" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width=".5"/>
+<text x="340" y="62" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle" dominant-baseline="central">本地判分</text>
+<text x="340" y="80" font-size="12" fill="#185FA5" text-anchor="middle" dominant-baseline="central">对错由 QuizAnswer 定</text></g>
+<g><rect x="470" y="40" width="170" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width=".5"/>
+<text x="555" y="62" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle" dominant-baseline="central">错题本</text>
+<text x="555" y="80" font-size="12" fill="#185FA5" text-anchor="middle" dominant-baseline="central">确认批改后入册</text></g>
+<g><rect x="470" y="160" width="170" height="56" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width=".5"/>
+<text x="555" y="182" font-size="14" font-weight="500" fill="#3C3489" text-anchor="middle" dominant-baseline="central">自动衍生</text>
+<text x="555" y="200" font-size="12" fill="#534AB7" text-anchor="middle" dominant-baseline="central">本地 / 模型两路 · 后台跑</text></g>
+<g><rect x="255" y="160" width="170" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width=".5"/>
+<text x="340" y="182" font-size="14" font-weight="500" fill="#085041" text-anchor="middle" dominant-baseline="central">衍生题库</text>
+<text x="340" y="200" font-size="12" fill="#0F6E56" text-anchor="middle" dominant-baseline="central">bank.json · 连对两次过关</text></g>
+<g><rect x="40" y="160" width="170" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width=".5"/>
+<text x="125" y="182" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle" dominant-baseline="central">练衍生题</text>
+<text x="125" y="200" font-size="12" fill="#185FA5" text-anchor="middle" dominant-baseline="central">答错回流错题本</text></g>
+<path d="M210 68 L249 68" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#a4)"/>
+<path d="M425 68 L464 68" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#a4)"/>
+<path d="M575 96 L575 154" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#a4)"/>
+<path d="M470 188 L431 188" fill="none" stroke="#534AB7" stroke-width="1.5" marker-end="url(#a4)"/>
+<path d="M255 188 L216 188" fill="none" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#a4)"/>
+<path d="M125 160 L125 118 L545 118 L545 96" fill="none" stroke="#0F6E56" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#a4)"/>
+<text x="330" y="110" font-size="12" fill="#0F6E56" dominant-baseline="central">练错了回流错题本，进复习队列</text>
+<text x="340" y="234" font-size="12" fill="#5F5E5A" text-anchor="middle" dominant-baseline="central">衍生用 unawaited 后台跑 · 判卷结果不等它 · 判卷页有状态条</text>
+</svg>
+<figcaption>「过关」= 连对两次，且只升不降：对一次可能是顺着上一题顺出来的。</figcaption>
+</figure>
+
+<h3>衍生的两条路，本地优先</h3>
+<table>
+<thead><tr><th style="width:20%">路</th><th style="width:36%">什么时候走</th><th>答案怎么保证</th></tr></thead>
+<tbody>
+<tr><td>本地变体模板</td><td>错题题型能映射到模板，<b>且算法结构判得出来</b>（加减、乘法、倍的认识、有余数除法、长方形面积或周长、三角形、圆面积、单位换算、购物找零）</td><td>按结构改数字 + <code>Rational</code> 精确算，<b>零联网、毫秒级</b>，有模板的题根本不进 prompt</td></tr>
+<tr><td>模型按原题干出</td><td>本地没有同算法模板（混合运算、植树/间隔、平均数、梯形、平行四边形、圆周长、组合图形、格点、立体图形/展开图、求几分之几、AI 应用题）</td><td>模型必须给 <code>equation</code>，本地复算必须一致，否则<b>整道丢弃</b>；没配 key 时如实说"暂时造不出"，不出不相干的题充数</td></tr>
+</tbody>
+</table>
+
+<h3>「同类」是同到算法，不是同到题型名</h3>
+<p class="lead" style="margin-bottom:12px">这是这一轮真正学到的东西：一个题型名底下藏着好几种算法。
+答案都没算错，但孩子练的是另一个考点 —— 比不出题更糟，因为连对两次会在题库里留下假的"已掌握"。</p>
+<table>
+<thead><tr><th style="width:26%">源错题</th><th style="width:30%">当时衍生出（真机实测）</th><th style="width:12%">问题</th><th>现在</th></tr></thead>
+<tbody>
+<tr><td>长方形<b>面积</b> 8×5</td><td>长 12 宽 4 的<b>周长</b></td><td><span class="pill p-no">换了公式</span></td><td>处方带 <code>rectArea</code>，只出面积</td></tr>
+<tr><td>不退位<b>减</b> 731−463</td><td><b>573 + 652</b></td><td><span class="pill p-no">减变加</span></td><td>处方带 <code>sub</code>，闸门见加法就丢</td></tr>
+<tr><td><b>倍的认识</b> 3+3×2（两步）</td><td>每盒 38 支买 3 盒（一步乘）</td><td><span class="pill p-no">少一步</span></td><td>题干含「一共」→ <code>mulThenAdd</code></td></tr>
+<tr><td><b>简单购物</b> 60−6×4（两步找零）</td><td>一支 28 元买 11 支（一步乘）</td><td><span class="pill p-no">少一步</span></td><td>题干含「找回」→ <code>mulThenSub</code></td></tr>
+</tbody>
+</table>
+<div class="note bad">
+  <b>判不出结构就交给模型，不许猜。</b>所以「求几分之几」不再映射到同分母分数加减（那是另一种算法），
+  「混合运算」不映射到加减模板（考的是运算顺序），「植树」不映射到单价×数量（考的是段数与点数）。
+  回归用真实出题器的 1560 道题干派生 2703 道题，逐道校验结构 + 用<b>独立于生成器的公式</b>复算答案。
+</div>
+
+<h3>这一轮逮到的两个真 bug（都是只看截图看不出来的）</h3>
+<div class="cards">
+  <div class="card">
+    <h3>① 衍生题换了算法</h3>
+    <p>界面一切正常，12 道衍生题全部 <code>origin=local</code>，但四类的算法全错。
+       根因是只按题型名映射。修法：处方带算法结构（<code>VariantShape</code>）、
+       模板照结构出、闸门里再查一遍"结构是命令，不是建议"。</p>
+  </div>
+  <div class="card">
+    <h3>② 练完题库一条痕迹都没记</h3>
+    <p>「结果 2/3」显示正常，点完成也正常返回，但 <code>bank.json</code> 的 <code>savedAt</code> 一动没动。
+       根因：交卷后 <code>setState</code> 重建，共享组件把外部 controller 按 <code>input=null</code>
+       同步了一次，<b>把孩子的作答清空了</b> → 落账读到全空串，静默跳过。
+       修法：<code>null</code> = "别动这个框"；落账改读<b>交卷快照</b>。</p>
+  </div>
+</div>
+<div class="note">
+  <b>所以验收不能只看截图。</b>这两个 bug 的共同点是"界面看不出异常，数据已经错了"，
+  只有把设备上的 <code>bank.json</code> / <code>wrongbook.json</code> 拉下来对账才暴露
+  （<code>savedAt</code> 变没变是最快的判据）。修后实测：单题连对两次 →
+  <code>attempts=2 / streak=2 / passed=true</code>，界面「未过关 12 → 11」并标「已过关」；
+  故意答错的题进错题本（25 → 26，<code>kind=derived</code>）。
+</div>
+
+<h2><span class="n">05</span>Agent 流程：四个 Agent，一条规矩</h2>
+<p class="lead">所有联网能力都是同一个形状：模型只产出"数学关系与文字"，
+答案与对错一律本地重算。紫色是模型，蓝色是本地把关。</p>
+<figure>
+<svg viewBox="0 0 680 250" width="100%" role="img">
+<title>Agent 通用流程：prompt、模型输出、本地闸门、本地复算、三态亮牌与重试</title>
+<desc>五个阶段构成一个环，复算不符时带原因重发一次，仍不符亮红牌。</desc>
+<defs>
+<marker id="a5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+<g><rect x="25" y="40" width="130" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width=".5"/>
+<text x="90" y="62" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle" dominant-baseline="central">Prompt</text>
+<text x="90" y="80" font-size="12" fill="#185FA5" text-anchor="middle" dominant-baseline="central">年级 + 难度档约束</text></g>
+<g><rect x="180" y="40" width="130" height="56" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width=".5"/>
+<text x="245" y="62" font-size="14" font-weight="500" fill="#3C3489" text-anchor="middle" dominant-baseline="central">模型输出</text>
+<text x="245" y="80" font-size="12" fill="#534AB7" text-anchor="middle" dominant-baseline="central">步骤 + 答案 + 算式</text></g>
+<g><rect x="335" y="40" width="130" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width=".5"/>
+<text x="400" y="62" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle" dominant-baseline="central">本地闸门</text>
+<text x="400" y="80" font-size="12" fill="#185FA5" text-anchor="middle" dominant-baseline="central">≥2 步 · 算式可解析</text></g>
+<g><rect x="490" y="40" width="130" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width=".5"/>
+<text x="555" y="62" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle" dominant-baseline="central">本地复算</text>
+<text x="555" y="80" font-size="12" fill="#185FA5" text-anchor="middle" dominant-baseline="central">Rational 精确重算</text></g>
+<g><rect x="470" y="160" width="170" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width=".5"/>
+<text x="555" y="182" font-size="14" font-weight="500" fill="#085041" text-anchor="middle" dominant-baseline="central">三态亮牌</text>
+<text x="555" y="200" font-size="12" fill="#0F6E56" text-anchor="middle" dominant-baseline="central">已验算 / 未验算 / 不符</text></g>
+<path d="M155 68 L176 68" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#a5)"/>
+<path d="M310 68 L331 68" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#a5)"/>
+<path d="M465 68 L486 68" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#a5)"/>
+<path d="M555 96 L555 154" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#a5)"/>
+<path d="M470 188 L245 188 L245 96" fill="none" stroke="#534AB7" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#a5)"/>
+<text x="357" y="176" font-size="12" fill="#534AB7" text-anchor="middle" dominant-baseline="central">复算不符：带原因重发一次；仍不符亮红牌，不假装成功</text>
+<text x="245" y="234" font-size="12" fill="#5F5E5A" text-anchor="middle" dominant-baseline="central">模型永远在"提建议"，本地永远在"做决定" —— 所以模型答错只会被丢掉，不会变成孩子的错答案</text>
+</svg>
+<figcaption>五个 Agent 都是这个环；差别只在 prompt 与闸门条款，不在形状。</figcaption>
+</figure>
+
+<table>
+<thead><tr><th style="width:15%">Agent</th><th style="width:19%">模型负责</th><th style="width:24%">本地负责（权威）</th><th style="width:22%">不合格怎么办</th><th>实测</th></tr></thead>
+<tbody>
+<tr><td><b>讲解</b><br><code>explain.dart</code></td><td>分步骤 + 最终答案 + 一条可验算 <code>equation</code></td><td><code>Rational</code> 从 equation 复算；步骤 ≥2、答案含数字</td><td>少于 2 步或复算不符 → <b>带原因重发一次</b>；仍不符标 <code>mismatch</code></td><td>三题全部一次通过（6.5 / 2.1 / 2.8 s）</td></tr>
+<tr><td><b>识题</b><br><code>vision.dart</code></td><td>把题干读成文本，<b>只许抄不许解</b>；认不出留空并注明，不许猜</td><td>题干可改；家长确认后才进下一步</td><td>模型不守 JSON → 兜底成一步并标「不完整」，不抛异常</td><td>合成答卷 5 题，认卷 2.6 s</td></tr>
+<tr><td><b>判卷</b><br><code>grader.dart</code></td><td>① 认字（vision）② 只给判错的题写批语，<b>不提正确答案</b></td><td><b>判分由本地 <code>QuizAnswer.check</code> 定</b>（全角半角、单位剥离、余数写法 <code>7……5</code>、小数尾零、数值容差）</td><td>认不出 → 标「未识别」不判错：没看清就判错是冤枉孩子</td><td>5 题：3 判对 / 1 认出手写 <code>90</code> 判错得批语 / 1 未识别</td></tr>
+<tr><td><b>衍生</b><br><code>derive.dart</code></td><td>只给<b>没有本地模板</b>的错题出同类题，必须给 <code>equation</code></td><td>先用 <code>localRecipeFor</code> 从题干认<b>算法结构</b>，判得出就走本地模板（零联网）</td><td>要配图 / 没验算式 / 算式解析不了 / 复算不一致 / 非有限小数 → <b>整道丢弃</b>；判不出结构 → 交模型，不许猜</td><td>4 道错题 → 12 道入库；没模板的攒成一次请求批量问（≤6 道）</td></tr>
+<tr><td><b>出题</b><br><code>quizgen.dart</code></td><td>出完整应用题 + 2~4 步讲解 + 可验算 equation</td><td>归类 / 判重 / 按档位夹紧难度 + 答案复算</td><td>与衍生同一套闸门；按 ≤3 道分批（一次 6~10 道会超时）</td><td>五年级奥数 4 道、六年级奥数 4 道、五年级图形运动 4 道，闸门 0 误杀</td></tr>
+</tbody>
+</table>
+
+<h2><span class="n">06</span>和上一版比，改了什么</h2>
+<p class="lead">上一版是 2026-10-16 的 v1.0（里程碑 11/12、离线回归 250 条）。
+v1.1 把 M12 整个闭环跑完了；<b>v1.2 是家长回访六条反馈的修复版</b>；
+<b>v1.3 加了浮窗演算板</b>（手机/平板，见下）；<b>v1.4 统一检查立体图形</b>（见下）。</p>
+<table>
+<thead><tr><th style="width:22%">维度</th><th style="width:30%">上一版 v1.0（10-16）</th><th style="width:30%">这一版 v1.1（10-17）</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>里程碑</td><td>11 / 12，M12 在做</td><td><b>12 / 12</b></td><td>M12 判卷 → 错题本 → 衍生 → 题库 → 练习 → 过关，全链路模拟器实测</td></tr>
+<tr><td>离线回归</td><td>250 条</td><td><b>329 条</b>（8 个脚本）</td><td>新增「衍生题同算法」79 条（真实题干 1560 道派生 2703 道题）；其余脚本全部重跑确认 0 失败</td></tr>
+<tr><td>衍生题库</td><td>没有这个东西</td><td>判卷确认后每道错题自动造 3 道同类题入库</td><td><code>bank.json</code> 独立于 <code>wrongbook.json</code>，不参与 FSRS 与重要度统计</td></tr>
+<tr><td>「同类」的口径</td><td>按题型名映射</td><td>按<b>算法结构</b>映射（<code>VariantShape</code> 处方）</td><td>逮住 4 类"答案对但练错考点"的衍生题；判不出结构交给模型，不许猜</td></tr>
+<tr><td>题库落账依据</td><td>读 <code>TextEditingController</code></td><td>读<b>交卷那一刻的快照</b></td><td>修掉"练完一条痕迹都没记"—— 界面完全看不出异常的那种 bug</td></tr>
+<tr><td>知识点标签</td><td>有跨年级前缀（三年级卷子印「五上」）</td><td><b>432 道题，0 处跨年级</b></td><td>跨年级匹配时只印考点名，编码留空；新增 <code>kp_label_check.dart</code> 体检</td></tr>
+<tr><td>文档</td><td><code>docs/app/</code> 8 篇 + SPEC v1.0</td><td>03 / 07 / 08 三篇更新 + <b>SPEC v1.1</b></td><td>SPEC 补 §6 全部回归口径、§10 Agent 流程、§11 版本记录</td></tr>
+<tr><td>安装包</td><td>26.2 MB（arm64）</td><td>26.3 MB（arm64，27 558 193 字节）</td><td>体积没变，内容是修完两个 bug 之后的；两个 ABI 的 <code>check_dex</code> 均 0 缺失</td></tr>
+</tbody>
+</table>
+
+<h3>v1.2：家长回访六条反馈 → 全部落地（2026-10-17）</h3>
+<table>
+<thead><tr><th style="width:22%">反馈</th><th style="width:30%">改之前</th><th style="width:30%">改之后</th><th>证据</th></tr></thead>
+<tbody>
+<tr><td>① 拍照识题又慢、又只认一道题</td><td>上传 PNG 1935 KB；一次只认"这一张"上的一道题</td><td>Android 宿主编 JPEG q72 → <b>265 KB（小 7.3 倍）</b>；OCR 一次返回整图所有题（≤8），一题一卡</td><td>真机实测：一张 5 题卷 → 「认出来 5 道题」逐题分卡，11.1 s；dex 内含 <code>inSampleSize/createScaledBitmap</code></td></tr>
+<tr><td>② 切 tab 回来数据没了、年级变了</td><td>每次 <code>setState</code> 重建 <code>body</code>，离屏页面被 unmount、State 被 dispose</td><td><code>IndexedStack</code> + 页面只在 <code>initState</code> 建一次（A19）</td><td>真机：选五年级 → 切到复习 → 切回，仍是五年级</td></tr>
+<tr><td>③ 点出题秒出 6 道，既不是 AI 出的也不是这个单元的</td><td>本地题库没收录就默默拿同年级不相干的题充数</td><td>没收录就<b>先不出</b>，明写「正在用 AI 按这个单元出题」；AI 失败也注明"不是这个单元的题"（A20）</td><td>真机：五年级·因数与倍数 + 提高 → 出 6 道 AI 题，标注「本地题库没收录，本套 6 道由 AI 现场生成」</td></tr>
+<tr><td>④ 变体闯关都是固定分数加减</td><td><code>fallbackVariantKind(5)</code> 写死 <code>fracAddSub</code>，且 23 个题型一半没映射</td><td><b>四层映射</b>：严格处方 → 题型名 → <b>按题干推断算法</b> → 按年级轮换；本地没模板的走 AI 异步生成，全失败才轮换并标注「同年级常规练习」（A21）</td><td>真机：长方形面积错题 → 闯关 3 道全是面积变体；万以内加减法错题 → 全是加减变体</td></tr>
+<tr><td>⑤ 速度还能不能再提</td><td>同上，大头是上传体积</td><td>JPEG 7.3 倍瘦身 + 多题 OCR <code>maxTokens</code> 2000 → 3000</td><td>1024px 拍照风格图：PNG 1935 KB vs JPEG 265 KB（净版面试卷 2.3 倍）</td></tr>
+<tr><td>⑥ PDF 导出不太明显</td><td>只有设置页一个入口，图标藏在 chip 右边</td><td>错题本页头部<b>整行白底按钮</b>「导出 PDF · N 道错题（可打印）」+ 练习页同样式按钮，弹层抽成共享 <code>export_sheet.dart</code></td><td>真机：错题本 26 道错题 → 按钮直接可见</td></tr>
+</tbody>
+</table>
+<p class="lead">离线断言 329 → <b>351 条</b>（多题识别 +7、题干推断与轮换 +15）。</p>
+
+<h3>v1.3：浮窗演算板（2026-10-17 家长提出，当日闭环）</h3>
+<p class="lead">家长原话：「能不能做个浮窗演算用？」→「我的想法是在手机上弹出一个画板可以自己运算，适用于平板」。
+PC 端先交付了 tkinter 版（<code>tool/floatcalc/</code>，系统置顶窗口），v1.3 是手机/平板版。</p>
+<table>
+<thead><tr><th style="width:22%">决定</th><th style="width:30%">做法</th><th style="width:30%">被放弃的方案</th><th>理由</th></tr></thead>
+<tbody>
+<tr><td>载体</td><td>可拖拽悬浮球 + 演算面板，挂 <code>MaterialApp.builder</code> 的 Stack（Navigator 之上），五个 Tab 与 push 页面都能用</td><td><code>SYSTEM_ALERT_WINDOW</code> 系统级悬浮窗</td><td>系统悬浮窗要额外授权、平板分屏下行为不可控；家长端工具不该一上来就弹权限</td></tr>
+<tr><td>两个模式</td><td>「计算」（输入即算 + 小键盘 + 历史）+「画板」（四色笔/橡皮/撤销/清空）</td><td>上手写识别</td><td>识别错了比没有更糟 —— 家长会把识别错的数当验算结果</td></tr>
+<tr><td>平板适配</td><td>最短边 ≥ 600 切宽布局（左输入键盘、右结果竖式），手机窄布局，<b>同一份代码</b></td><td>另做一套平板 UI</td><td>主界面仍锁竖屏（竖式/几何横屏会被压扁），平板竖屏宽度已够宽布局用</td></tr>
+<tr><td>引擎口径</td><td><code>lib/calc/expression.dart</code>：递归下降解析（禁 eval）+ <code>Rational</code> 精确求值；与 PC 端逐条同口径</td><td>各写一套</td><td><code>/</code> 恒为除号、带分数归一化阶段展开成 <code>(2+1/3)</code>，词法层只认一种数，两个载体才不会漂移</td></tr>
+</tbody>
+</table>
+<table>
+<thead><tr><th style="width:22%">能力</th><th style="width:30%">细节</th><th style="width:30%">边界（刻意不做）</th><th>证据</th></tr></thead>
+<tbody>
+<tr><td>输入写法</td><td>小数 / 分数（<code>1/3+1/6</code>）/ 带分数（<code>2又1/3</code>）/ 口语（<code>4分之3</code>）/ 百分号 / 全角符号 / 千分位 / 幂 / 隐式乘（<code>2(3+4)</code>）</td><td>指数限整数且 ≤ 64</td><td>离线回归 <b>52 条</b>（精确性 / 全角与口语 / 优先级 / 循环小数 / 竖式挑选 / 错误提示说人话）</td></tr>
+<tr><td>结果形态</td><td>大字结果 + 循环节 / 分数 / 带分数三行辅助；循环小数<b>循环节重复两遍再省略</b>（<code>0.33…</code> 不会被误读成截断）</td><td>—</td><td><code>58÷7</code> → <code>8.285714…</code> + 循环节 285714 + 分数 58/7 + 带分数 8又2/7</td></tr>
+<tr><td>竖式</td><td>整数加减乘除复用 <code>VerticalTypeset</code>；小数加减自制<b>小数点对齐</b>网格（不足补 0）；带分步话术</td><td>多步算式、带括号、小数乘除、结果为负的减法 —— <b>只给结果不出竖式</b>（教材竖式只有一行运算）</td><td><code>3.5+2.25</code> → <code>3.50 / +2.25 / 5.75</code> 小数点对齐</td></tr>
+<tr><td>构建与体检</td><td>两个 ABI 均重新出包；<code>check_dex.py</code> 缺失 0</td><td>—</td><td>arm64 26.5 MB（27 754 801 字节）；离线断言 351 → <b>403 条</b></td></tr>
+</tbody>
+</table>
+
+<div class="note">
+  <b>顺带纠正了一条记错的旧结论：</b>本机跑不了的是 <code>dart test</code> 这个 <b>runner</b>
+  （要管道 spawn 子进程，<code>CreateFile failed 231</code>），
+  但<b>单个 test 文件用 <code>dart run</code> 是能跑的</b>，<code>package:test</code> 的用例也行
+  （<code>dart run test/core_test.dart</code> 直接打出 <code>+32: All tests passed!</code>）。
+  别再把它当成"所有 test 文件都跑不了"。
+</div>
+
+<h3>v1.4：立体图形统一检查（2026-10-18 家长复查长方体，当日闭环）</h3>
+<p class="lead">家长复查出长方体"图和题面对不上"。图形即答案的一部分 —— 画错了等于题出错了。
+这次把立体图形全部过一遍，逮住 <b>4 类问题</b>并立下 A23 三条画法规矩。</p>
+<table>
+<thead><tr><th style="width:22%">问题</th><th style="width:34%">原来什么样</th><th style="width:28%">现在</th><th>证据</th></tr></thead>
+<tbody>
+<tr><td><b>长方体画法错误</b></td><td>只画剪影加两条<b>面对角线</b>（根本不是棱），正面矩形没闭合，隐藏棱一条没有</td><td>12 条棱画全：剪影 6 + 正面 2 + 顶面右缘 1 实线，被挡 3 条虚线（人教版画法）</td><td>测试断言每条棱端点必须落在 8 个顶点上，不许对角线</td></tr>
+<tr><td><b>展开图判断题"永远能"</b></td><td>池子里 4 个布局全能折成，"能不能折成正方体"答案恒为"能"，无脑答就能全对</td><td>混入 2×3 矩形、两片同侧两个<b>不可折陷阱</b>（真三维折叠校验把关）；讲解按布局生成</td><td>出题器抽样 400 道，「能」「不能」都出现</td></tr>
+<tr><td><b>虚线三个渲染器不一致</b></td><td>App Canvas 和打印 PDF 都没实现虚线 —— 隐藏棱、圆柱下底全是实线</td><td>Canvas 用 <code>computeMetrics</code> 截段，PDF 用 <code>setLineDashPattern</code>，与 Web SVG 对齐</td><td>同一份 FigureScene，虚线是"被挡住"的语义</td></tr>
+<tr><td><b>两条过时的三角形测试</b></td><td>"三边定形"契约早已被"底+高"契约取代，测试还在测旧契约（一直在静默失败）</td><td>改测现行契约：底/高/垂足严格落坐标 + 非正数报错</td><td>geometry_solver_test 30 条入列回归</td></tr>
+</tbody>
+</table>
+
+<h2><span class="n">07</span>工程链路：出包与验收</h2>
+<p class="lead">这条流水线是手工编排的，也是风险最集中的一段 —— 所以每步都有体检。</p>
+<figure>
+<svg viewBox="0 0 680 250" width="100%" role="img">
+<title>手工编排的 APK 构建与验收流水线</title>
+<desc>依赖解析、Dart AOT、dex 打包、资源与 shader、对齐签名、体检与模拟器验收。</desc>
+<defs>
+<marker id="a3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+<g><rect x="40" y="40" width="170" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width=".5"/>
+<text x="125" y="62" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle" dominant-baseline="central">依赖解析</text>
+<text x="125" y="80" font-size="12" fill="#185FA5" text-anchor="middle" dominant-baseline="central">POM 递归 · 不手写</text></g>
+<g><rect x="255" y="40" width="170" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width=".5"/>
+<text x="340" y="62" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle" dominant-baseline="central">Dart AOT</text>
+<text x="340" y="80" font-size="12" fill="#185FA5" text-anchor="middle" dominant-baseline="central">dill → libapp.so</text></g>
+<g><rect x="470" y="40" width="170" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width=".5"/>
+<text x="555" y="62" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle" dominant-baseline="central">dex 打包</text>
+<text x="555" y="80" font-size="12" fill="#185FA5" text-anchor="middle" dominant-baseline="central">javac + d8</text></g>
+<g><rect x="470" y="160" width="170" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width=".5"/>
+<text x="555" y="182" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle" dominant-baseline="central">资源与 shader</text>
+<text x="555" y="200" font-size="12" fill="#185FA5" text-anchor="middle" dominant-baseline="central">aapt2 link · IPLR</text></g>
+<g><rect x="255" y="160" width="170" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width=".5"/>
+<text x="340" y="182" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle" dominant-baseline="central">对齐 + 签名</text>
+<text x="340" y="200" font-size="12" fill="#185FA5" text-anchor="middle" dominant-baseline="central">zipalign · apksigner</text></g>
+<g><rect x="40" y="160" width="170" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width=".5"/>
+<text x="125" y="182" font-size="14" font-weight="500" fill="#085041" text-anchor="middle" dominant-baseline="central">体检 + 验收</text>
+<text x="125" y="200" font-size="12" fill="#0F6E56" text-anchor="middle" dominant-baseline="central">check_dex · 模拟器</text></g>
+<path d="M210 68 L249 68" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#a3)"/>
+<path d="M425 68 L464 68" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#a3)"/>
+<path d="M555 96 L555 154" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#a3)"/>
+<path d="M470 188 L431 188" fill="none" stroke="#185FA5" stroke-width="1.5" marker-end="url(#a3)"/>
+<path d="M255 188 L216 188" fill="none" stroke="#0F6E56" stroke-width="1.5" marker-end="url(#a3)"/>
+<text x="340" y="234" font-size="12" fill="#5F5E5A" text-anchor="middle" dominant-baseline="central">本机 flutter build 不可用，整条链路由 Python 手工编排 · 约 1 分钟出包</text>
+</svg>
+<figcaption>因为 d8 不会因为"引用的类不存在"报错，缺任何包都能编出能装能验签的 APK —— 所以最后一步的体检是强制的。</figcaption>
+</figure>
+
+<h2><span class="n">08</span>交付到哪了</h2>
+<p class="lead">标记说明：✅ 已实现且产物可验 · ⚠️ 部分实现有边界 · ❌ 未实现</p>
+<div class="bar"><i style="width:100%"></i></div>
+<p style="font-size:12.5px;color:var(--muted);margin:6px 0 0">里程碑 12 / 12 完成（M1–M12，含备份通道、iPhone 可用、AI 出新题、AI 判卷与布局重做、错题衍生题库）</p>
+
+<table>
+<thead><tr><th style="width:22%">能力</th><th style="width:12%">状态</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>出题 · 判分</td><td><span class="pill p-ok">✅</span></td><td>23 题型，逐题过正确性闸门（减法非负、除法有限小数、三边成三角形）</td></tr>
+<tr><td>图形与竖式</td><td><span class="pill p-ok">✅</span></td><td>存参数不存图：屏幕与 PDF 各自重新算坐标，都不会糊</td></tr>
+<tr><td>复习调度</td><td><span class="pill p-ok">✅</span></td><td>简化 FSRS，只出到期的题；重要度会衰减，连对 3 次归零</td></tr>
+<tr><td>导出 PDF</td><td><span class="pill p-ok">✅</span></td><td>A4 矢量，内嵌中文字体，可直接打印</td></tr>
+<tr><td>拍照识题</td><td><span class="pill p-ok">✅</span></td><td>不申请相机权限，走系统 Intent；识别结果必须家长确认</td></tr>
+<tr><td>分步讲解</td><td><span class="pill p-ok">✅</span></td><td>Agent 会打回重做一次；实测 3 题全部一次通过</td></tr>
+<tr><td>同类题</td><td><span class="pill p-ok">✅</span></td><td>简单题本地生成、复杂题模型生成，两边答案都本地复算，不符就丢</td></tr>
+<tr><td>AI 出新题</td><td><span class="pill p-ok">✅</span></td><td>难度三档：基础（本地，零联网）/ 提高（一半 AI）/ 奥数挑战（AI 为主）。模型出应用题，答案本地复算；最近题干避重。实测五年级奥数 4 道、六年级奥数 4 道、五年级「图形的运动（三）」4 道，闸门 0 误杀、答案手工复核</td></tr>
+<tr><td>AI 判卷</td><td><span class="pill p-ok">✅</span></td><td>拍手写答卷 → 模型只认字、<b>对错由本地判分规则定</b>、模型只写批语。认不出标「未识别」不判错。模拟器实测：4 题判对、手写错答案被本地逮住并得针对性批语、空白题未识别；错题自动进复习队列</td></tr>
+<tr><td>错题衍生题库</td><td><span class="pill p-ok">✅</span></td><td>判卷确认后为每道错题自动造 3 道同类题，进「错题本 → 衍生题库」。<b>本地优先</b>：题型能严格映射到变体模板的走本地（零联网、答案必对）；映射不上的才问模型，且必须给验算式并本地复算一致，否则整道丢弃（题库是持久的，错答案会被反复练）。练题连对两次算过关，答错的进错题本。整链模拟器实测：4 道错题 → 12 道入库 → 练习记痕迹 → 连对两次「已过关」（未过关 12→11）→ 答错进错题本（25→26）</td></tr>
+<tr><td>衍生题「同算法」保证</td><td><span class="pill p-ok">✅</span></td><td>本地衍生带「算法结构」处方：面积≠周长、减法≠加法、两步≠一步、"求几分之几"≠分数加减。<b>判不出结构就交给模型，不许猜</b>。回归用真实出题器的 1560 道题干派生 2703 道题逐道校验（结构与独立复算），79 条断言全过。真机上就靠这个逮住了 4 类"答案对但练错考点"的衍生题</td></tr>
+<tr><td>运行记录</td><td><span class="pill p-ok">✅</span></td><td>调用统计 + 学习侧统计（错题数/今日到期/正确率）+ CSV 导出</td></tr>
+<tr><td>变体闯关</td><td><span class="pill p-ok">✅</span></td><td>错题本一键「变体闯关」：同类题换数字，答案本地算，答错自动归档（模拟器实测错题本 3 → 9）</td></tr>
+<tr><td>数据备份</td><td><span class="pill p-ok">✅</span></td><td>导出带时间戳 JSON（分享到微信/邮件/网盘），导入走系统选择器并与现有记录合并；合并规则 15 条回归断言</td></tr>
+<tr><td>体积优化</td><td><span class="pill p-ok">✅</span></td><td>NDK <code>llvm-strip</code> 剥掉引擎调试符号：172 MB → <b>26.3 MB</b>，模拟器启动正常（+1.57 s）</td></tr>
+<tr><td>iPhone 可用</td><td><span class="pill p-ok">✅</span></td><td>Web 版做成 <b>PWA</b>：iPhone 用 Safari 打开 →「添加到主屏幕」→ 全屏图标，即装即用、共用同一份内核。iOS 工程骨架与 Swift 通道也已备好，拿到 Mac 跑 <code>build_ios.sh</code> 即可出 <code>.ipa</code></td></tr>
+</tbody>
+</table>
+
+<h2><span class="n">09</span>实测数据</h2>
+<p class="lead">下面两组是真实联网跑出来的，不是估算。</p>
+<div class="cards">
+  <div class="card">
+    <h3>讲解三题，全部一次通过</h3>
+    <table style="margin-top:10px">
+      <tbody>
+      <tr><td>237 + 158</td><td style="text-align:right">3 步 · 6.5 s</td></tr>
+      <tr><td>绳子 12 米用去 3 米又 4 米</td><td style="text-align:right">3 步 · 2.1 s</td></tr>
+      <tr><td>长方形 9×6 面积</td><td style="text-align:right">2 步 · 2.8 s</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:8px">三题答案均本地复算一致，标「已本地验算」。</p>
+  </div>
+  <div class="card">
+    <h3>五个模型候选，三个不能用</h3>
+    <table style="margin-top:10px">
+      <tbody>
+      <tr><td>deepseek-v4-flash</td><td style="text-align:right"><span class="pill p-ok">默认</span></td></tr>
+      <tr><td>qwen3-vl-plus</td><td style="text-align:right"><span class="pill p-ok">备用</span></td></tr>
+      <tr><td>gpt-image-2-token</td><td style="text-align:right"><span class="pill p-no">画图模型</span></td></tr>
+      <tr><td>gemini-2.5-flash-image</td><td style="text-align:right"><span class="pill p-no">不可用</span></td></tr>
+      <tr><td>qwen3-vl-8b-instruct</td><td style="text-align:right"><span class="pill p-no">不可用</span></td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:8px">所以识别留了备用模型，主模型报 missing 时自动降级一次。</p>
+  </div>
+</div>
+
+<h2><span class="n">10</span>我们还主动找过茬</h2>
+<p class="lead">站在反对者角度审了一轮，12 条意见里 8 条是真缺陷，已全部修复并补了回归用例。</p>
+<table>
+<thead><tr><th style="width:40%">反对意见</th><th style="width:16%">结论</th><th>处理</th></tr></thead>
+<tbody>
+<tr><td>模型没给验算式，界面却亮「已本地验算」绿勾</td><td><span class="pill p-no">确认缺陷</span></td><td>验算改三态，没验算就是没验算</td></tr>
+<tr><td>要求步骤全面，但模型只给一步也照单全收</td><td><span class="pill p-no">确认缺陷</span></td><td>≥2 步 + 有答案 + 答案含数字，不完整体打回重做</td></tr>
+<tr><td>同类题只能看不能练，错了不进错题本</td><td><span class="pill p-no">确认缺陷</span></td><td>生成的题转成可作答题，能归档、能进复习队列</td></tr>
+<tr><td>没相机 / 用户取消时点了没反应</td><td><span class="pill p-no">确认缺陷</span></td><td>明确提示并引导「试试从相册选」</td></tr>
+<tr><td>管理员只有接口日志，看不到孩子练得怎样</td><td><span class="pill p-no">确认缺陷</span></td><td>加学习侧统计 + CSV 导出</td></tr>
+<tr><td>照片会无限堆积</td><td><span class="pill p-no">确认缺陷</span></td><td>只保留最近 20 张</td></tr>
+<tr><td>生成的题会不会出负数、循环小数</td><td><span class="pill p-ok">已覆盖</span></td><td>本地出题保证非负与有限小数，用例已断言</td></tr>
+<tr><td>模型乱答（不按 JSON）会不会崩</td><td><span class="pill p-ok">已有兜底</span></td><td>整段话兜底成一步并标「不完整」，不抛异常</td></tr>
+</tbody>
+</table>
+
+<h2><span class="n">11</span>风险与下一步</h2>
+<p class="lead">如实列出，不粉饰。</p>
+<table>
+<thead><tr><th style="width:26%">风险</th><th style="width:14%">等级</th><th>对策</th></tr></thead>
+<tbody>
+<tr><td>体积 172 MB，引擎未 strip</td><td><span class="pill p-ok">已解决</span></td><td>NDK <code>llvm-strip</code> 剥符号 → 26.3 MB；排查 native 崩溃时可 <code>--no-strip</code> 出带符号包</td></tr>
+<tr><td>卸载 App 数据即丢</td><td><span class="pill p-ok">已缓解</span></td><td>JSON 备份导出/导入通道；合并规则：次数取大、重要度取小、到期取更晚</td></tr>
+<tr><td>iOS 无法在本机构建</td><td><span class="pill p-ok">已缓解</span></td><td>Web 前端 + 局域网模式：iPhone Safari 打开「观感验收」页，同一内核同一套图形</td></tr>
+<tr><td>「按题干认结构」不是形式化证明</td><td><span class="pill p-ok">已缓解</span></td><td>只覆盖本地出题器真实产出过的问法，读不出结构一律交给模型（保守但不会错）；真实题干 1560 道逐道校验</td></tr>
+<tr><td>界面层没有自动化测试</td><td><span class="pill p-warn">开放</span></td><td>本机跑不了 test runner，所以约定：凡"点下去该发生什么"，装模拟器真点一遍，并把设备上的 <code>bank.json</code> / <code>wrongbook.json</code> 拉下来对账 —— 这一轮两个 bug 就是这么发现的</td></tr>
+<tr><td>只支持 arm64-v8a</td><td><span class="pill p-warn">中</span></td><td>32 位老设备装不了；可加 <code>--abi armeabi-v7a</code> 构建</td></tr>
+<tr><td>聚合站模型可用性会变</td><td><span class="pill p-ok">已缓解</span></td><td>备用模型自动降级一次 + UI 明确提示换模型</td></tr>
+</tbody>
+</table>
+
+<div class="note">
+  <b>下一步：</b>
+  ① 小米装 26 MB 新包做真机观感验收 →
+  ② iPhone 连同一 WiFi 打开「观感验收」页（<code>start-lan.bat</code>）→
+  ③ 需要覆盖 32 位老设备时加 <code>armeabi-v7a</code> 构建 →
+  ④ 上架前换正式签名。
+</div>
+
+<footer>
+  数据来源：模块与能力见 <code>docs/app/00-总览.md</code>–<code>08-联网AI与实测.md</code>；
+  缺陷与用例见 <code>docs/app/07-反对者审查与测试.md</code>；
+  完整规格、Agent 流程与版本记录见 <code>docs/pm/SPEC.md</code>（v1.2）。<br>
+  复现命令：出包 <code>python app/tool/build_apk.py --abi arm64-v8a</code> ·
+  体检 <code>python app/tool/check_dex.py</code> ·
+  离线回归 <code>dart run test/core_test.dart</code> 等 8 个脚本（351 条）·
+  衍生题同算法 <code>dart run test/derive_shape_manual.dart</code> ·
+  题库 <code>dart run test/bank_manual.dart</code> ·
+  备份回归 <code>dart run test/backup_manual.dart</code> ·
+  联网实测 <code>dart run test/live_agicto.dart</code> ·
+  标签体检 <code>dart run tool/kp_label_check.dart</code> ·
+  模拟器验收 <code>bash app/tool/verify_emulator.sh</code> ·
+  新功能冒烟 <code>bash app/tool/verify_new_features.sh</code>
+</footer>
+
+</div>
+</body>
+</html>

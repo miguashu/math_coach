@@ -1,0 +1,211 @@
+:root {
+  --bg: #f3f4f6;
+  --card: #ffffff;
+  --ink: #0f172a;
+  --ink-2: #475569;
+  --ink-3: #94a3b8;
+  --line: #e2e8f0;
+  --brand: #2563eb;
+  --brand-soft: #eff6ff;
+  --ok: #16a34a;
+  --ok-soft: #f0fdf4;
+  --bad: #dc2626;
+  --bad-soft: #fef2f2;
+  --warn: #d97706;
+  --radius: 12px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.app { max-width: 940px; margin: 0 auto; padding: 18px 16px 60px; }
+
+/* ── 顶栏 ── */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; margin-bottom: 18px; flex-wrap: wrap;
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.logo {
+  width: 38px; height: 38px; border-radius: 10px; background: var(--brand);
+  color: #fff; display: grid; place-items: center; font-size: 22px; font-weight: 700;
+}
+.title { font-size: 18px; font-weight: 700; letter-spacing: .3px; }
+.subtitle { font-size: 12px; color: var(--ink-3); }
+
+.tabs { display: flex; gap: 6px; background: #fff; padding: 4px; border-radius: 10px; border: 1px solid var(--line); }
+.tab {
+  border: 0; background: transparent; padding: 7px 14px; border-radius: 8px;
+  font-size: 14px; color: var(--ink-2); cursor: pointer; font-family: inherit;
+}
+.tab:hover { background: var(--bg); }
+.tab.active { background: var(--brand); color: #fff; }
+.badge {
+  display: inline-block; margin-left: 5px; min-width: 18px; padding: 0 5px;
+  border-radius: 9px; background: var(--brand-soft); color: var(--brand);
+  font-size: 11px; font-weight: 700; text-align: center;
+}
+.badge.warn { background: #fff7ed; color: var(--warn); }
+.tab.active .badge { background: rgba(255,255,255,.28); color: #fff; }
+
+/* ── 面板 ── */
+.panel {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 14px 16px; margin-bottom: 14px;
+}
+.panel-title { font-weight: 700; font-size: 15px; }
+.panel-sub { font-size: 12.5px; color: var(--ink-3); }
+.row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.row.between { justify-content: space-between; }
+.row label { font-size: 13px; color: var(--ink-2); }
+.hint { font-size: 12.5px; color: var(--ink-3); margin: 8px 0 0; }
+
+select, input[type=number] {
+  border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px;
+  font-size: 14px; font-family: inherit; background: #fff; color: var(--ink);
+}
+input[type=number] { width: 64px; }
+select:focus, input:focus { outline: 2px solid var(--brand-soft); border-color: var(--brand); }
+
+button {
+  border: 1px solid var(--line); background: #fff; border-radius: 8px;
+  padding: 6px 14px; font-size: 14px; cursor: pointer; font-family: inherit; color: var(--ink-2);
+}
+button:hover { background: var(--bg); }
+button.primary { background: var(--brand); border-color: var(--brand); color: #fff; }
+button.primary:hover { background: #1d4ed8; }
+button.danger { color: var(--bad); border-color: #fecaca; }
+button.danger:hover { background: var(--bad-soft); }
+
+.hidden { display: none !important; }
+
+/* 视图切换：只显示当前 tab 的内容 */
+.view { display: none; }
+.view.active { display: block; }
+
+/* ── 题卡 ── */
+.paper { display: flex; flex-direction: column; gap: 12px; }
+.qcard {
+  background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 14px 16px;
+}
+.qcard.correct { border-color: #bbf7d0; background: var(--ok-soft); }
+.qcard.wrong { border-color: #fecaca; background: var(--bad-soft); }
+.qhead { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+.qno { font-weight: 700; color: var(--brand); }
+.qtag {
+  font-size: 11px; color: var(--ink-2); background: var(--bg);
+  padding: 1px 7px; border-radius: 6px;
+}
+.qai {
+  font-size: 10px; font-weight: 700; color: #7c3aed;
+  background: rgb(124 58 237 / 12%); padding: 1px 6px; border-radius: 6px;
+}
+.qstem { font-size: 16px; margin: 2px 0 10px; }
+
+.figure { margin: 8px 0; }
+.figure svg, .vert { display: block; }
+.vert { margin: 8px 0; color: var(--ink); }
+
+.answer-row { display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.answer-row input[type=text] {
+  flex: 0 0 160px; border: 1px solid var(--line); border-radius: 8px;
+  padding: 7px 10px; font-size: 15px; font-family: inherit;
+}
+.verdict { font-size: 13.5px; font-weight: 600; }
+.verdict.ok { color: var(--ok); }
+.verdict.bad { color: var(--bad); }
+
+.steps {
+  margin-top: 10px; padding: 10px 12px; border-left: 3px solid var(--brand);
+  background: var(--brand-soft); border-radius: 0 8px 8px 0; font-size: 14px;
+}
+.steps ol { margin: 0; padding-left: 18px; }
+.steps li { margin: 3px 0; }
+
+/* ── 结果 ── */
+.result .big { font-size: 22px; font-weight: 700; }
+.result .line { color: var(--ink-2); font-size: 14px; }
+
+/* ── 列表 ── */
+.list { display: flex; flex-direction: column; gap: 10px; }
+.item {
+  background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 12px 14px;
+}
+.item.due { border-left: 3px solid var(--warn); }
+.item-top { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+.item-stem { font-size: 15px; font-weight: 600; }
+.item-meta { font-size: 12px; color: var(--ink-3); margin-top: 4px; }
+.imp {
+  font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px;
+  background: var(--bad-soft); color: var(--bad); white-space: nowrap;
+}
+.imp.zero { background: var(--ok-soft); color: var(--ok); }
+.item-answer { margin-top: 8px; font-size: 13.5px; color: var(--ink-2); }
+.empty { text-align: center; color: var(--ink-3); padding: 40px 0; }
+
+.stats { display: flex; gap: 14px; font-size: 13px; color: var(--ink-2); }
+.stats b { color: var(--ink); font-size: 16px; }
+
+/* ── toast ── */
+.toast {
+  position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%);
+  background: #0f172a; color: #fff; padding: 9px 18px; border-radius: 8px;
+  font-size: 14px; z-index: 50; box-shadow: 0 6px 20px rgba(0,0,0,.18);
+}
+
+/* ── 装到主屏幕的引导（观感验收页） ── */
+.install-box {
+  margin-top: 12px; padding: 12px 14px;
+  background: var(--brand-soft); border: 1px solid #bfdbfe;
+  border-radius: var(--radius);
+}
+.install-title { font-weight: 700; font-size: 13.5px; color: #1e40af; }
+.install-steps {
+  margin: 8px 0 0; padding-left: 20px;
+  font-size: 12.5px; color: var(--ink-2);
+}
+.install-steps li { margin: 5px 0; }
+
+@media (max-width: 640px) {
+  .topbar { flex-direction: column; align-items: stretch; }
+  .tabs { justify-content: space-between; }
+  .answer-row input[type=text] { flex: 1 1 auto; }
+
+  /* 添加到主屏幕后是全屏的 —— 避开刘海和底部横条，
+     否则顶栏会被状态栏压住、页面底部按钮会被 Home 横条挡住。 */
+  .app {
+    padding-top: calc(14px + env(safe-area-inset-top));
+    padding-bottom: calc(48px + env(safe-area-inset-bottom));
+    padding-left: calc(14px + env(safe-area-inset-left));
+    padding-right: calc(14px + env(safe-area-inset-right));
+  }
+
+  /* 手指点的地方别太小；顺便去掉安卓上那层灰色点击高亮 */
+  .tab, button { min-height: 40px; }
+  * { -webkit-tap-highlight-color: transparent; }
+
+  /* iOS 上输入框字号小于 16px 会触发「聚焦自动放大页面」，很难受 */
+  input, select, textarea { font-size: 16px; }
+
+  /* flex 子项默认 min-width:auto —— 下拉框遇到长选项不会收缩，
+     会把整页撑出横向滚动条。320px 的老机型上尤其明显。 */
+  .row > * { min-width: 0; }
+  select { max-width: 100%; }
+  /* 四个标签在窄屏放不下就换行，别硬挤出屏幕外 */
+  .tabs { flex-wrap: wrap; }
+  /* 收紧一点内边距，让四个标签在 393px 的 iPhone 上能排成一行 */
+  .tab { padding: 7px 11px; }
+
+  /* 全屏模式下不要橡皮筋滚动整页 */
+  html, body { overscroll-behavior-y: none; }
+}

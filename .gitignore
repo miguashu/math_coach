@@ -1,0 +1,45 @@
+# 构建产物（6.6G，绝对不能进版本库）
+app/build/
+build/
+.dart_tool/
+.packages
+.publish-cache/
+lib/generated_plugin_registrant.dart
+app/lib/generated_plugin_registrant.dart
+
+# 打包/发布中间物
+*.apk
+*.aab
+*.ipa
+*.zip
+*.keystore
+*.jks
+key.properties
+
+# 密钥与本地配置（绝不进版本库）
+# .env 里是真实 key；.env.example 是空模板，必须对外可见（见 README）
+.env
+.env.*
+!.env.example
+local_config.dart
+secrets.json
+tool/*_probe_config.*
+
+# Python / 其他运行时碎片
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# IDE 与系统
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+# 日志
+*.log
+
+# Flutter 依赖锁：本项目为准库包（库 + app 双工程），锁文件保留追踪
+# pubspec.lock 故意不忽略
