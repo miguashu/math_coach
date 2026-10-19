@@ -76,7 +76,7 @@
 
 <header>
   <h1>小数辅导 · 项目汇报</h1>
-  <p class="sub">小学 1–6 年级数学练习工具 · 离线内核 + 联网 AI 增强 · <b>v1.4 · 2026-10-18</b></p>
+  <p class="sub">小学 1–6 年级数学练习工具 · 离线内核 + 联网 AI 增强 · <b>v1.5 · 2026-10-19</b></p>
   <div class="tags">
     <span class="tag ok">12 / 12 里程碑交付</span>
     <span class="tag ok">安装包 26 MB（原 172 MB）</span>
@@ -89,7 +89,7 @@
     <div class="kpi"><div class="l">安装包体积</div><div class="v">26.5<small> MB</small></div><div class="d">strip 前是 172 MB · arm64</div></div>
     <div class="kpi"><div class="l">申请权限</div><div class="v">0<small> 条</small></div><div class="d">不是少用，是一条都没有</div></div>
     <div class="kpi"><div class="l">冷启动</div><div class="v">1.4<small> s</small></div><div class="d">26 MB 瘦身包实测</div></div>
-    <div class="kpi"><div class="l">离线回归</div><div class="v">433<small> 条</small></div><div class="d">10 个脚本全过（含几何求解器 30 条；衍生题同算法 94 条）</div></div>
+    <div class="kpi"><div class="l">离线回归</div><div class="v">436<small> 条</small></div><div class="d">10 个脚本全过（含几何求解器 30 条；衍生题同算法 94 条）</div></div>
     <div class="kpi"><div class="l">联网实测</div><div class="v">15<small> / 15</small></div><div class="d">真实 key 端到端</div></div>
     <div class="kpi"><div class="l">备份回归</div><div class="v">15<small> / 15</small></div><div class="d">合并规则逐条断言</div></div>
     <div class="kpi"><div class="l">dex 缺失类</div><div class="v">0</div><div class="d">引用但未定义，会崩的那种</div></div>
@@ -412,6 +412,26 @@ PC 端先交付了 tkinter 版（<code>tool/floatcalc/</code>，系统置顶窗�
 <tr><td><b>两条过时的三角形测试</b></td><td>"三边定形"契约早已被"底+高"契约取代，测试还在测旧契约（一直在静默失败）</td><td>改测现行契约：底/高/垂足严格落坐标 + 非正数报错</td><td>geometry_solver_test 30 条入列回归</td></tr>
 </tbody>
 </table>
+
+<h3>v1.5：代码开源 + API key 脱敏（2026-10-19）</h3>
+<p class="lead">仓库 <b>miguashu/math_coach</b> 已公开（MIT）。
+公开前必须处理一件事：<code>AiConfig.fallback</code> 里写死了明文 key，
+而这段代码的<b>注释自己写着"本仓库不上传任何 key"</b> —— 注释和代码长期矛盾，一公开就是泄漏。</p>
+<table>
+<thead><tr><th style="width:24%">通道</th><th style="width:40%">key 怎么进去</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><b>App 打包</b></td><td><code>build_apk.py</code> 的 <code>step_kernel()</code> 把 <code>.env</code> 转成 <code>-D</code> 传给 frontend_server</td><td>这里是<b>手编流程</b>，绕开了 flutter_tools，没有 <code>--dart-define-file</code> 可用，只能自己拼。已实测编译通过且 key 确实进包</td></tr>
+<tr><td><b>本地服务</b></td><td><code>start.bat</code> / <code>start-lan.bat</code> 用 <code>for /f</code> 解析 <code>.env</code> 后加 <code>-D</code></td><td>Dart VM 认的是 <code>-D</code>，不认 <code>--dart-define-file</code>（那是 flutter 的选项）</td></tr>
+<tr><td><b>Python 探针</b></td><td>新增 <code>tool/local_key.py</code> 读同一份 <code>.env</code></td><td>三处共用一份来源，不会漂移</td></tr>
+</tbody>
+</table>
+<p>源码里读到的是编译期常量 <code>String.fromEnvironment('MATH_COACH_API_KEY')</code>：
+clone 下来天然是干净的，运行时也不会被 dump。
+最关键的一步是把这条约束<b>钉成了测试</b>——原来那条「默认配置开箱即用（key 预置）」的断言，
+其<b>旧契约正是要被推翻的</b>，已改写成 3 条：源码不含 <code>sk-</code> / 模型名仍预置 / 未注入时 <code>chatReady=false</code>。
+谁手滑把 key 写死回来都会被逮住。</p>
+<p>顺带：6.6 GB 的 <code>app/build</code>（含 5.8 GB 的 <code>build/old</code>）被 <code>.gitignore</code> 挡在外面，
+实际入库 28 MB / 275 个文件；补了 MIT License（公开仓库没有 License 默认保留所有权利）。</p>
 
 <h2><span class="n">07</span>工程链路：出包与验收</h2>
 <p class="lead">这条流水线是手工编排的，也是风险最集中的一段 —— 所以每步都有体检。</p>
