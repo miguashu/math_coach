@@ -303,7 +303,7 @@ class AppState extends ChangeNotifier {
       await repo.recordAttempt(
         q,
         correct: correct,
-        rating: correct ? Rating.good : Rating.again,
+        rating: ratingFor(correct: correct),
         figureSpec: q.figureSpec,
         verticalKind: q.verticalKind,
         verticalArgs: q.verticalArgs,
@@ -338,7 +338,7 @@ class AppState extends ChangeNotifier {
       await repo.recordAttempt(
         q,
         correct: r.correct,
-        rating: r.correct ? Rating.good : Rating.again,
+        rating: ratingFor(correct: r.correct),
         figureSpec: q.figureSpec,
         verticalKind: q.verticalKind,
         verticalArgs: q.verticalArgs,
@@ -407,7 +407,7 @@ class AppState extends ChangeNotifier {
         await repo.recordAttempt(
           q,
           correct: false,
-          rating: Rating.again,
+          rating: ratingFor(correct: false),
           figureSpec: q.figureSpec,
           verticalKind: q.verticalKind,
           verticalArgs: q.verticalArgs,
@@ -427,7 +427,15 @@ class AppState extends ChangeNotifier {
 
   /// 复习的一次批改：答错会把下次复习拉回队首（lapseStep=0，趁热巩固），
   /// 答对则按 FSRS 往后推。
-  Future<void> submitReview(List<ReviewRecord> rs, Map<String, String> answers) async {
+  ///
+  /// [selfRatings] 是孩子在答对的题上自评的档位（[selfReportRatings] 三档）。
+  /// 这是 hard / easy 唯一会被真正传下去的地方 —— 答错固定 [Rating.again]，
+  /// 答对没自评就默认 [Rating.good]，两者的取舍都封在 [ratingFor] 里。
+  Future<void> submitReview(
+    List<ReviewRecord> rs,
+    Map<String, String> answers, {
+    Map<String, Rating> selfRatings = const {},
+  }) async {
     for (final r in rs) {
       final q = questionFromRecord(r);
       if (q == null) continue;
@@ -438,7 +446,7 @@ class AppState extends ChangeNotifier {
       await repo.recordAttempt(
         q,
         correct: correct,
-        rating: correct ? Rating.good : Rating.again,
+        rating: ratingFor(correct: correct, selfRated: selfRatings[r.id]),
         figureSpec: r.figureSpec,
         verticalKind: r.verticalKind,
         verticalArgs: r.verticalArgs,
@@ -578,7 +586,7 @@ class AppState extends ChangeNotifier {
       await repo.recordAttempt(
         e.key,
         correct: e.value,
-        rating: e.value ? Rating.good : Rating.again,
+        rating: ratingFor(correct: e.value),
       );
     }
     notifyListeners();

@@ -6,6 +6,7 @@ import 'package:math_coach/knowledge/kp.dart';
 import 'package:math_coach/knowledge/kp_index.dart';
 import 'package:math_coach/knowledge/kp_seed.dart';
 import 'package:math_coach/review/fsrs.dart';
+import 'package:math_coach/store/repository.dart';
 import 'package:math_coach/typeset/vertical.dart';
 import 'package:math_coach/variant/generator.dart';
 
@@ -288,11 +289,15 @@ void main() {
       st = s.review(st, Rating.good, now);
       final base = st.stability;
 
-      final hard = s.review(st, Rating.hard, now).stability;
-      final good = s.review(st, Rating.good, now).stability;
-      final easy = s.review(st, Rating.easy, now).stability;
+      // 同样必须"到期了才复习"：在同一个 now 上评三次，R=1 → 增长项为 0，
+      // 三档会算出同一个数（都是 2.3065），那测的不是算法是空气。
+      final t = st.due;
+      final hard = s.review(st, Rating.hard, t).stability;
+      final good = s.review(st, Rating.good, t).stability;
+      final easy = s.review(st, Rating.easy, t).stability;
 
       expect(base, greaterThan(0));
+      expect(hard, greaterThan(0));
       expect(easy, greaterThan(good));
       expect(good, greaterThan(hard));
     });
@@ -300,10 +305,15 @@ void main() {
     test('答对一定有进展（间隔不能变小）', () {
       final s = FsrsScheduler();
       var st = FsrsState.initial(now);
-      st = s.review(st, Rating.good, now);
+      var t = now;
+      st = s.review(st, Rating.good, t);
       for (var i = 0; i < 5; i++) {
         final prev = st.stability;
-        st = s.review(st, Rating.good, now);
+        // 必须是"到期了才复习"。老版本在同一个 now 上连点 5 次，
+        // 换成真 FSRS-6 后那条就站不住了：刚复习完同一秒再复习 R=1，
+        // 增长项 exp((1-R)*w10)-1 = 0，本来就不该涨 —— 那是算法对，不是 bug。
+        t = st.due;
+        st = s.review(st, Rating.good, t);
         expect(st.stability, greaterThan(prev));
       }
     });
@@ -320,13 +330,19 @@ void main() {
       expect(st.difficulty, greaterThan(dBefore));
     });
 
-    test('间隔有上下限，不会无限膨胀', () {
+    test('间隔有上限：再怎么答对也不会排到半年后', () {
+      // 注意断言的是**间隔**不是 stability。
+      // 真 FSRS-6 的 stability 会一直涨（记得越牢本来就该间隔越久），
+      // 180 天是本项目给"间隔"设的业务上限，不是 stability 的上限。
+      // 老测试断言 stability <= 180，那是把两件事混为一谈了。
       final s = FsrsScheduler();
       var st = FsrsState.initial(now);
       for (var i = 0; i < 40; i++) {
-        st = s.review(st, Rating.easy, now);
+        final prevDue = st.due;
+        st = s.review(st, Rating.easy, st.due);
+        expect(st.due.difference(prevDue).inDays, lessThanOrEqualTo(180),
+            reason: '第 $i 次复习排到了 180 天之后');
       }
-      expect(st.stability, lessThanOrEqualTo(180));
       expect(st.stability, greaterThanOrEqualTo(0.5));
     });
 
@@ -375,6 +391,81 @@ void main() {
       expect(back.stability, closeTo(st.stability, 1e-9));
       expect(back.reps, st.reps);
       expect(back.due, st.due);
+    });
+  });
+
+  group('四档评分计数（家长看得见的唯一出口）', () {
+    final now = DateTime(2026, 1, 1);
+    final base = ReviewRecord(
+      id: 'q1',
+      kind: 'calc',
+      stem: '1+1',
+      grade: 1,
+      kpPath: '数与运算',
+      answer: '2',
+      steps: const [],
+      fsrs: FsrsState.initial(now),
+      importance: 0,
+      streak: 0,
+      wrongCount: 0,
+      rightCount: 0,
+      createdAt: now,
+      lastSeen: now,
+    );
+
+    test('默认是空计数，不是 null', () {
+      expect(base.ratingCounts, isEmpty);
+      expect(base.ratingCount(Rating.good), 0);
+    });
+
+    test('四档各自独立累加', () {
+      var r = base
+          .withRating(Rating.good)
+          .withRating(Rating.good)
+          .withRating(Rating.hard)
+          .withRating(Rating.easy)
+          .withRating(Rating.again);
+      expect(r.ratingCount(Rating.good), 2);
+      expect(r.ratingCount(Rating.hard), 1);
+      expect(r.ratingCount(Rating.easy), 1);
+      expect(r.ratingCount(Rating.again), 1);
+      // 加计数不能顺手动别的字段
+      expect(r.id, 'q1');
+      expect(r.rightCount, 0);
+    });
+
+    test('序列化往返：int 键过 JSON 会变成字符串键，读回来得还原', () {
+      final r = base.withRating(Rating.easy).withRating(Rating.again);
+      final back = ReviewRecord.fromMap(r.toMap());
+      expect(back.ratingCounts, r.ratingCounts);
+      expect(back.ratingCount(Rating.easy), 1);
+      expect(back.ratingCount(Rating.again), 1);
+    });
+
+    test('老备份没有 ratingCounts 字段 → 读成空 Map，不炸', () {
+      final m = <String, Object?>{
+        'id': 'q1',
+        'kind': 'calc',
+        'stem': '1+1',
+        'grade': 1,
+        'kpPath': '数与运算',
+        'answer': '2',
+        'fsrs': FsrsState.initial(now).toMap(),
+        'importance': 0,
+        'streak': 0,
+        'wrongCount': 0,
+        'rightCount': 0,
+        'createdAt': now.millisecondsSinceEpoch,
+        'lastSeen': now.millisecondsSinceEpoch,
+      };
+      final r = ReviewRecord.fromMap(m);
+      expect(r.ratingCounts, isEmpty);
+      expect(r.ratingCount(Rating.hard), 0);
+    });
+
+    test('toJson 给界面的是字符串键（jsonEncode 不认 int 键）', () {
+      final j = base.withRating(Rating.good).toJson();
+      expect(j['ratingCounts'], {'3': 1});
     });
   });
 }

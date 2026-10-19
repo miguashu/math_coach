@@ -1,13 +1,14 @@
 # 小数辅导 · 项目管理规格（SPEC）
 
-> 版本 **v1.5** · 2026-10-19 · 工作位置 `D:\workbuddy\math_coach`
+> 版本 **v1.6** · 2026-10-19 · 工作位置 `D:\workbuddy\math_coach`
 > 本文件是**项目管理用**的规格与进度基线；逐页产品说明在 `docs/app/`。
 > 所有数字都来自构建产物或实测脚本，可复现；来源写在本文件最后一节。
 >
 > **版本说明**：v1.0（2026-10-16）之后，M12 的内容是**就地补写**进本文件的，
 > 版本号当时没升。v1.1 把它归位；v1.2 收家长回访六条；v1.3 加浮窗演算板；
 > v1.4 立体图形统一检查（长方体画法 / 展开图陷阱题 / 三个渲染器虚线对齐）；
-> v1.5 代码开源 + API key 脱敏（A24）。
+> v1.5 代码开源 + API key 脱敏（A24）；
+> v1.6 复习调度换成真 FSRS-6 + 四级评分全部接上（A25）。
 > 与上一版的差异记在 §11，Agent 流程总表在 §10。
 
 ---
@@ -135,6 +136,7 @@
 | A22 浮窗演算板做 App 内浮窗，不做系统悬浮窗；不做手写识别 | ① 悬浮球 + 面板挂在 `MaterialApp.builder` 的 Stack（Navigator 之上），五个 Tab 与 push 页面都能用；② 要手算切「画板」模式（四色笔/橡皮/撤销/清空），**不接识别**；③ 引擎 `lib/calc/expression.dart` 与 PC 端 `tool/floatcalc/engine.py` 逐条同口径（精确有理数 / 一步算式才出竖式 / 循环节重复两遍） | ① `SYSTEM_ALERT_WINDOW` 系统级悬浮窗 ② 上手写识别 | ① 系统悬浮窗要额外授权、平板分屏下行为不可控，家长端工具不该一上来就弹权限；② 识别错了比没有更糟 —— 家长会把识别错的数当验算结果；③ `/` 恒为除号、带分数在归一化阶段展开成 `(2+1/3)`，词法层只认一种数，两个载体才不会漂移 |
 | A23 立体图形三条画法规矩（图形即答案的一部分） | ① **长方体 12 条棱必须画全**：剪影 6 条 + 正面 2 条 + 顶面右缘 1 条实线，被挡的 3 条（后左竖棱、底面两条）虚线 —— 曾经把左/右面的**对角线**当棱画、正面矩形没闭合；② **展开图判断题必须混入不可折的陷阱布局**（2×3 矩形、两片同侧），可折与否由 `CubeNetValidator` 三维折叠校验把关，求表面积的题只用可折布局；③ **虚线行为三个渲染器必须一致**（SVG/PDF/Canvas），Canvas 用 `computeMetrics` 截段实现 —— 曾经 App/PDF 漏了虚线分支，隐藏棱全画成实线 | ① 只画剪影 + 两条对角线 ② 判断题池子全是可折布局（答案永远"能"）③ 各渲染器自行其是 | ① 家长看到"图和题面对不上"；② 孩子无脑答"能"就能全对，题目白出；③ 同一份 `FigureScene` 三个后端，虚线是语义（被挡住），不是装饰 |
 | A24 key 绝不以明文出现在源码里；来源唯一且可审计 | key 唯一入口是仓库根 `.env`（gitignore，模板 `.env.example`），转为**编译期常量** `String.fromEnvironment('MATH_COACH_API_KEY')`；三条通道共用同一份文件：打包→`build_apk.py` 的 `step_kernel()` 手工拼 `-D`、本地服务→`start*.bat` 的 `for /f` 解析、Python 探针→`tool/local_key.py`；并由 `test/ai_manual.dart` 3 条断言钉住 | ① key 字符串直接写在 `AiConfig.fallback` 里 ② 各条通道各配一套 | ① 仓库公开后写死 key = 把额度挂在路灯上（原代码注释自己写着"本仓库不上传任何 key"，与代码长期矛盾）；② 编译期常量的好处是 clone 下来天然干净、运行时不会被 dump；③ 三处各自配一套就会漂移，"没配 key"这种情况必须能被测试逮住 |
+| A25 复习调度用真 FSRS-6，四级评分全部真的被用上 | ① 稳定性/难度/间隔全部对齐官方 FSRS-6（21 参数），**数值由 `tool/gen_fsrs_refs.py` 调 py-fsrs 生成参考值、再由 `test/fsrs6_test.dart` 逐条断言**（24 条），不是照论文手抄；② 评分决策收敛到唯一入口 `ratingFor()`（答错→again、答对→自评否则 good），消灭散落在 7 处的 `correct ? good : again`；③ 复习页改**两阶段**（先批改不落账 → 自评 → 确认归档），答对的题给三档自评按钮并当场显示 `previewIntervals` 算出的"多久后再见"；④ 每条记录加 `ratingCounts` 记四档各用过几次（家长唯一能看见的出口） | ① 自研简化版 `S *= factor*((11-D)/8)`（倍率恒定→指数爆炸，靠 maxInterval=180 硬钳掩盖）② 各调用点自己判评分 ③ 只有 good/again 两档，hard/easy 是死代码 | ① 简化版参数调错看不出来，孩子表现为"该复习的没复习"而家长无从察觉；② 硬/easy 只在算法里打转、界面上选不到，等于没做；③ 先落账再修会把 reps 记成两次、间隔算歪，所以宁可多一次点击 |
 
 ---
 
@@ -144,8 +146,9 @@
 |---|---|---|---|
 | 冷启动 | 无崩溃栈，`Fully drawn` < 2 s | **+1 s 571 ms**（26 MB 瘦身包，模拟器） | `bash app/tool/verify_emulator.sh` |
 | dex 完整性 | "引用但未定义"的**会崩**类 = 0 | **0**（44 项为 OEM 可选扩展/未启用能力） | `python app/tool/check_dex.py` |
-| **离线回归合计** | 全部脚本 0 失败 | **436 / 436**（10 个脚本，见 §9 逐条命令） | 本节各行之和 |
-| ├ 内核 | `package:test` 用例 | **32 / 32** | `dart run test/core_test.dart` |
+| **离线回归合计** | 全部脚本 0 失败 | **465 / 465**（11 个脚本，见 §9 逐条命令） | 本节各行之和 |
+| ├ 内核 | `package:test` 用例 | **37 / 37** | `dart run test/core_test.dart` |
+| ├ **FSRS-6 调度** | 与官方 py-fsrs 逐条数值对照；边际递减；四级评分；间隔预览 | **24 / 24** | `dart run test/fsrs6_test.dart`（参考值：`python tool/gen_fsrs_refs.py`） |
 | ├ **几何求解器** | 坐标/边长/角度按 spec 严格成立；展开图可折性三维折叠校验；立体图形棱结构 | **30 / 30** | `dart run test/geometry_solver_test.dart` |
 | ├ 判分规范化 | 全角/单位/余数写法/尾零 | **16 / 16** | `dart run test/answer_check_manual.dart` |
 | ├ AI 出题闸门 | 模型自相矛盾 / 无验算式 / 步骤 <2 / "如图"题全部拦截 | **30 / 30** 离线断言 | `dart run test/quizgen_manual.dart` |
@@ -453,7 +456,7 @@
 | 闯关端到端 | `bash app/tool/verify_new_features.sh`（模拟器：种子数据 → 闯关 → 归档 → 备份导出） |
 | 模拟器保活 | `bash app/tool/emu_hold.sh`（验收期间保持在线） |
 | 真机/模拟器操作 | `bash app/build/adbx.sh <shot\|tap\|swipe\|key\|dump\|start\|install\|rec>`（一次调用内重启 adb → 操作 → 截图 → 拉回） |
-| 离线回归（全部 10 个脚本，436 条） | 命令见 §6 各行；dart 用 `D:\workbuddy\flutter\bin\cache\dart-sdk\bin\dart.exe` |
+| 离线回归（全部 11 个脚本，465 条） | 命令见 §6 各行；dart 用 `D:\workbuddy\flutter\bin\cache\dart-sdk\bin\dart.exe` |
 | 几何求解器 | `dart run test/geometry_solver_test.dart`（图形结构 + 展开图可折性 + 出题器抽样） |
 | 衍生题同算法 | `dart run test/derive_shape_manual.dart`（真实题干 1560 道派生 2703 道） |
 | 题库与衍生服务 | `dart run test/bank_manual.dart` |
@@ -492,6 +495,7 @@
 
 | 版本 | 日期 | 相对上一版改了什么 |
 |---|---|---|
+| **v1.6** | 2026-10-19 | **复习调度换成真 FSRS-6 + 四级评分全部接上（A25）**：① 原先是自研简化版 `S *= factor*((11-D)/8)`，倍率恒定 → 连续答对指数爆炸（4^10≈10^6 天），只能靠 maxInterval=180 天硬钳把症状盖住，**参数调错看不出来**；换成官方 FSRS-6（21 参数），多出的 `S^(-w9)` 边际递减项让增长倍率自然收敛（实测 n=1 时 6.04 → n=12 时 1.89 → n=60 时 1.12）；② 那些期望值**一个都不手算**——新增 `tool/gen_fsrs_refs.py` 调 py-fsrs 导出参考值并生成 `test/fsrs6_test.dart` 的数值段（行为段走模板 `tool/fsrs_test_tail.dart.txt`），24 条断言逐条对照；③ 评分决策收敛到唯一入口 `ratingFor()`，消灭 7 处散落的 `correct ? good : again`（此前 hard/easy 从未被传过）；④ 复习页改**两阶段**：先批改**不落账** → 答对的题给三档自评（每档当场显示 `previewIntervals` 算出的"N 天后再见"）→ 确认归档。不先落账的原因：补一次修正会把 reps 记成两次、间隔算歪；⑤ `ReviewRecord` 新增 `ratingCounts` 记四档各用过几次（老备份读成空 Map），这是家长唯一看得见的出口；⑥ 顺带修掉 3 条**为旧算法写的过时断言**（在同一个 now 上连点 5 次复习 —— 真 FSRS-6 下 R=1、增长项为 0，本来就不该涨；以及把 stability 上限和间隔上限混为一谈）。离线断言 436 → **465 条** |
 | **v1.5** | 2026-10-18 | **代码开源到 GitHub（A24）+ API key 脱敏**：仓库 `miguashu/math_coach` 公开（MIT）。① 原先 key 明文写死在 `lib/ai/config.dart`，而这段代码的注释自己写着"本仓库不上传任何 key"——注释和代码矛盾，公开即泄漏；改成编译期注入 `String.fromEnvironment('MATH_COACH_API_KEY')`，key 唯一入口是仓库根 `.env`（gitignore），模板 `.env.example`；② 三条通道共用同一份 `.env`：App 打包走 `build_apk.py` 的 `step_kernel()` 手工转成 `-D`（**这里绕不开 flutter_tools，没有 `--dart-define-file` 可用**）、本地服务走 `start*.bat` 的 `for /f` 解析、Python 探针走新增的 `tool/local_key.py`；③ 把"源码不含明文 key"**钉成测试**——原断言"默认配置开箱即用（key 预置）"的旧契约被正式推翻，改写成 3 条（不含 `sk-` / 模型名仍预置 / 未注入时 `chatReady=false`）；④ `.gitignore` 挡住 6.6 GB 的 `app/build`（含 5.8 GB 的 `build/old`），实际入库 28 MB / 275 文件；⑤ 补 MIT License（公开仓库没有 License 默认保留所有权利）。离线断言 433 → **436 条** |① **长方体斜二测图重画** —— 补全 12 条棱（正面矩形此前没闭合、两条被当棱画的面对角线删掉、3 条隐藏棱虚线），新增"12 条棱结构"测试（端点必须落在 8 个顶点上、不许有对角线）；② **展开图判断题不再是"永远能"** —— 新增 2×3 矩形、两片同侧两个不可折陷阱布局（过 `CubeNetValidator` 校验），判断题一半可折一半不可折，讲解按布局生成（"中间一排四个"只对一四一型成立）；③ 展开图配**棱长标注**（spec 带 edge 才画，老错题重放不受影响）；④ **虚线语义三个渲染器对齐** —— App Canvas（`computeMetrics` 截段）与 PDF（`setLineDashPattern`）补上漏掉的虚线分支，此前隐藏棱/圆柱下底在 App 和打印卷子上都是实线；⑤ 顺带修掉两条**过时的三角形测试**（"三边定形"契约早已被"底+高"契约取代，测试没跟上）；⑥ 离线断言 403 → **433 条**（新增 geometry_solver_test 30 条入列） |
 | **v1.3** | 2026-10-17 | 浮窗演算板（手机/平板，A22）：悬浮球 + 计算/画板双模式面板挂 `MaterialApp.builder`，五个 Tab 都能用；纯 Dart 算式引擎 `lib/calc/expression.dart` 与 PC 端同口径；最短边 ≥ 600 切宽布局；离线断言 351 → **403 条**（新增 floatpad_engine_manual 52 条） |
 | **v1.2** | 2026-10-17 | 家长回访六条反馈全部落地：① **拍照识题提速 + 支持一图多题** —— 上传从 PNG 1935 KB 降到 JPEG 265 KB（7.3 倍，Android 宿主编码，`dart:ui` 只能编 PNG），OCR 改为一次返回整图所有题（≤8）并按题分卡；② **切 tab 不再丢状态** —— `IndexedStack` + 页面只建一次（A19）；③ **出题不再拿不相干的题充数** —— 本地没收录该单元时先不出，明确告知"正在用 AI 按这个单元出题"（A20）；④ **变体闯关不再固定分数加减** —— 四层映射（严格处方 / 题型名 / 按题干推断算法 / 按年级轮换），本地没有同算法模板的走 AI 异步生成，全失败才轮换兜底并标注"同年级常规练习"（A21）；⑤ PDF 导出从设置页单入口改为错题本/练习页两处醒目按钮 + 共享 `export_sheet`；⑥ 离线断言 329 → **351 条** |

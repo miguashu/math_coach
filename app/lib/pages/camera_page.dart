@@ -675,7 +675,7 @@ class _CameraPageState extends State<CameraPage> {
     await s.repo.recordAttempt(
       q,
       correct: correct,
-      rating: correct ? Rating.good : Rating.again,
+      rating: ratingFor(correct: correct),
     );
     await s.activityLog?.record('practice',
         detail: '同类题作答：${correct ? '答对' : '答错'}（${v.stem}）', ok: true);

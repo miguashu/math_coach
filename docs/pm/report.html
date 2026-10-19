@@ -76,7 +76,7 @@
 
 <header>
   <h1>小数辅导 · 项目汇报</h1>
-  <p class="sub">小学 1–6 年级数学练习工具 · 离线内核 + 联网 AI 增强 · <b>v1.5 · 2026-10-19</b></p>
+  <p class="sub">小学 1–6 年级数学练习工具 · 离线内核 + 联网 AI 增强 · <b>v1.6 · 2026-10-19</b></p>
   <div class="tags">
     <span class="tag ok">12 / 12 里程碑交付</span>
     <span class="tag ok">安装包 26 MB（原 172 MB）</span>
@@ -89,7 +89,7 @@
     <div class="kpi"><div class="l">安装包体积</div><div class="v">26.5<small> MB</small></div><div class="d">strip 前是 172 MB · arm64</div></div>
     <div class="kpi"><div class="l">申请权限</div><div class="v">0<small> 条</small></div><div class="d">不是少用，是一条都没有</div></div>
     <div class="kpi"><div class="l">冷启动</div><div class="v">1.4<small> s</small></div><div class="d">26 MB 瘦身包实测</div></div>
-    <div class="kpi"><div class="l">离线回归</div><div class="v">436<small> 条</small></div><div class="d">10 个脚本全过（含几何求解器 30 条；衍生题同算法 94 条）</div></div>
+    <div class="kpi"><div class="l">离线回归</div><div class="v">465<small> 条</small></div><div class="d">11 个脚本全过（含 FSRS-6 对照 24 条；几何求解器 30 条；衍生题同算法 94 条）</div></div>
     <div class="kpi"><div class="l">联网实测</div><div class="v">15<small> / 15</small></div><div class="d">真实 key 端到端</div></div>
     <div class="kpi"><div class="l">备份回归</div><div class="v">15<small> / 15</small></div><div class="d">合并规则逐条断言</div></div>
     <div class="kpi"><div class="l">dex 缺失类</div><div class="v">0</div><div class="d">引用但未定义，会崩的那种</div></div>
@@ -432,6 +432,24 @@ clone 下来天然是干净的，运行时也不会被 dump。
 谁手滑把 key 写死回来都会被逮住。</p>
 <p>顺带：6.6 GB 的 <code>app/build</code>（含 5.8 GB 的 <code>build/old</code>）被 <code>.gitignore</code> 挡在外面，
 实际入库 28 MB / 275 个文件；补了 MIT License（公开仓库没有 License 默认保留所有权利）。</p>
+
+<h3>v1.6：复习调度换成真 FSRS-6，四级评分全部接上（2026-10-19）</h3>
+<p class="lead">之前 <code>lib/review/fsrs.dart</code> 是个自研简化版：稳定性 <code>S *= factor * ((11-D)/8)</code>，
+<b>倍率恒定</b> —— 连续答对 10 次就是 4<sup>10</sup> ≈ 10<sup>6</sup> 天，只能靠 <code>maxInterval = 180 天</code> 硬钳住，
+<b>把症状盖住，参数调错了也看不出来</b>。孩子身上的表现是"该复习的没复习"，而家长无从察觉。</p>
+<table>
+<thead><tr><th style="width:26%">换了什么</th><th style="width:38%">怎么做的</th><th>为什么</th></tr></thead>
+<tbody>
+<tr><td><b>算法本体</b></td><td>换成官方 FSRS-6（21 参数），关键多了 <code>S<sup>-w9</sup></code> 边际递减项</td><td>记得越牢，再练一次收益越小：增长倍率实测 n=1 时 6.04 → n=12 时 1.89 → n=60 时 1.12，<b>单调收敛到 1</b>，不需要靠钳制遮掩</td></tr>
+<tr><td><b>那些数字的可信度</b></td><td>新增 <code>tool/gen_fsrs_refs.py</code>：调 py-fsrs 导出参考值 → 生成 <code>test/fsrs6_test.dart</code> 的数值段（24 条断言）</td><td>公式里十几个 exp/pow，<b>手抄错一个系数照样"跑得通"</b>。参考值一律写完整精度 —— 曾用 <code>round(v,6)</code> 省字符，差 3e-7 就让 4 条断言凭空变红</td></tr>
+<tr><td><b>评分决策入口</b></td><td>收敛到唯一函数 <code>ratingFor()</code>（答错→again、答对→自评否则 good），消灭 7 处散落的 <code>correct ? good : again</code></td><td>各写一遍的结果是 <b>hard / easy 从来没人传</b>，四级评分里两档是死代码</td></tr>
+<tr><td><b>复习页交互</b></td><td>改<b>两阶段</b>：先批改（<b>不落账</b>）→ 答对的题三档自评 → 确认归档；每档按钮当场显示 <code>previewIntervals</code> 算出的"N 天后再见"</td><td>不给那个数字，孩子点"有点难"和"很简单"是盲选；不先落账是因为补一次修正会把 reps 记成两次、间隔算歪</td></tr>
+<tr><td><b>家长看得见</b></td><td><code>ReviewRecord</code> 新增 <code>ratingCounts</code>（四档各用过几次，老备份读成空 Map）</td><td>看"错了 3 次"只知道结果；看"5 次很简单 / 12 次会了 / 6 次有点难"才知道孩子是真会还是硬撑</td></tr>
+</tbody>
+</table>
+<p>顺带修掉 3 条<b>为旧算法写的过时断言</b>：其一在同一个 <code>now</code> 上连点 5 次复习，
+真 FSRS-6 下 R=1、增长项为 0，本来就不该涨 —— 那是算法对，不是 bug；
+另两条把 stability 上限和间隔上限混为一谈（S 本来就该一直涨，180 天是给<b>间隔</b>设的业务上限）。</p>
 
 <h2><span class="n">07</span>工程链路：出包与验收</h2>
 <p class="lead">这条流水线是手工编排的，也是风险最集中的一段 —— 所以每步都有体检。</p>

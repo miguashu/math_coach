@@ -419,10 +419,16 @@ Future<void> apiCheck(HttpRequest req) async {
     final neednyaSteps = !correct || (m['showSteps'] == true);
     if (!correct) wrong++;
 
+    // 前端可以带 rating（1..4）= 答对后的自评档位。
+    // 答错一律 again、答对默认 good，取舍全封在 ratingFor 里，这里不自己判断。
+    final selfRated = m['rating'] == null
+        ? null
+        : Rating.fromValue((m['rating'] as num).toInt());
+    final rating = ratingFor(correct: correct, selfRated: selfRated);
     final recorded = await repo.recordAttempt(
       q,
       correct: correct,
-      rating: correct ? Rating.good : Rating.again,
+      rating: rating,
       figureSpec: _figureSpecOf(q),
       verticalKind: _verticalKindOf(q),
       verticalArgs: _verticalArgsOf(q),
@@ -431,6 +437,8 @@ Future<void> apiCheck(HttpRequest req) async {
     results.add({
       'id': id,
       'correct': correct,
+      'rating': rating.value,
+      'ratingLabel': rating.label,
       'expected': q.answer.display,
       'expectedUnit': q.answer.unit,
       if (neednyaSteps) 'steps': q.solutionSteps,

@@ -55,6 +55,13 @@ class ReviewRecord {
   final DateTime createdAt;
   final DateTime lastSeen;
 
+  /// 四档评分各被用过几次（键是 [Rating.value]）。
+  ///
+  /// 为什么非记不可：家长看"错了 3 次"只知道结果，
+  /// 看"5 次很简单 / 12 次会了 / 6 次有点难"才知道孩子是真会还是硬撑。
+  /// 这也是四级评分唯一的对外出口 —— 只在算法里打转、界面上看不见，等于没做。
+  final Map<int, int> ratingCounts;
+
   const ReviewRecord({
     required this.id,
     required this.kind,
@@ -75,7 +82,19 @@ class ReviewRecord {
     this.figureSpec,
     this.verticalKind,
     this.verticalArgs = const [],
+    this.ratingCounts = const {},
   });
+
+  /// 计一次评分（不动其它字段）。
+  ReviewRecord withRating(Rating r) => copyWith(
+        ratingCounts: <int, int>{
+          ...ratingCounts,
+          r.value: (ratingCounts[r.value] ?? 0) + 1,
+        },
+      );
+
+  /// 某一档被用过几次。
+  int ratingCount(Rating r) => ratingCounts[r.value] ?? 0;
 
   ReviewRecord copyWith({
     FsrsState? fsrs,
@@ -84,6 +103,7 @@ class ReviewRecord {
     int? wrongCount,
     int? rightCount,
     DateTime? lastSeen,
+    Map<int, int>? ratingCounts,
   }) =>
       ReviewRecord(
         id: id,
@@ -105,6 +125,7 @@ class ReviewRecord {
         rightCount: rightCount ?? this.rightCount,
         createdAt: createdAt,
         lastSeen: lastSeen ?? this.lastSeen,
+        ratingCounts: ratingCounts ?? this.ratingCounts,
       );
 
   /// 需要重点关照（重要度达到阈值）
@@ -133,6 +154,10 @@ class ReviewRecord {
         'rightCount': rightCount,
         'createdAt': createdAt.millisecondsSinceEpoch,
         'lastSeen': lastSeen.millisecondsSinceEpoch,
+        // JSON 的键只能是字符串，读回来再转回 int
+        'ratingCounts': <String, int>{
+          for (final e in ratingCounts.entries) '${e.key}': e.value,
+        },
       };
 
   factory ReviewRecord.fromMap(Map<String, Object?> m) => ReviewRecord(
@@ -155,6 +180,9 @@ class ReviewRecord {
         rightCount: (m['rightCount'] as int?) ?? 0,
         createdAt: DateTime.fromMillisecondsSinceEpoch((m['createdAt'] as int?) ?? 0),
         lastSeen: DateTime.fromMillisecondsSinceEpoch((m['lastSeen'] as int?) ?? 0),
+        // 老备份没有这个字段 —— 读出来是空 Map，不影响别的东西
+        ratingCounts: ((m['ratingCounts'] as Map?) ?? const {})
+            .map((k, v) => MapEntry(int.parse('$k'), (v as num).toInt())),
       );
 
   Map<String, Object?> toJson() => {
@@ -172,6 +200,10 @@ class ReviewRecord {
         'isDue': isDue(DateTime.now()),
         'answer': answer,
         'steps': steps,
+        // 四档评分各用过几次：家长看这个才知道孩子是真会还是硬撑
+        'ratingCounts': <String, int>{
+          for (final e in ratingCounts.entries) '${e.key}': e.value,
+        },
       };
 }
 
@@ -263,6 +295,9 @@ class WrongBookRepository {
   }
 
   /// 记一次作答：更新 FSRS 与重要度，落盘。
+  ///
+  /// [rating] 请一律用 [ratingFor] 算出来 —— 别在各调用点自己写
+  /// `correct ? good : again`，那样 hard / easy 永远没人传。
   Future<ReviewRecord> recordAttempt(
     QuizQuestion q, {
     required bool correct,
@@ -294,6 +329,7 @@ class WrongBookRepository {
         rightCount: correct ? 1 : 0,
         createdAt: now,
         lastSeen: now,
+        ratingCounts: <int, int>{rating.value: 1},
       );
       _records[q.id] = created;
       await save();
@@ -313,7 +349,7 @@ class WrongBookRepository {
       wrongCount: prev.wrongCount + (correct ? 0 : 1),
       rightCount: prev.rightCount + (correct ? 1 : 0),
       lastSeen: now,
-    );
+    ).withRating(rating);
     _records[q.id] = updated;
     await save();
     return updated;
